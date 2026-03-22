@@ -8,6 +8,8 @@
 import { z } from "zod"
 import { createClient } from "@/lib/supabase/server"
 import { fetchMetadata } from "./fetch-metadata"
+import { revalidatePath } from "next/cache"
+import { categorizeWithAI } from "./ai-categorize"
 
 // Zod schema — validates that the input is a real URL
 const saveUrlSchema = z.object({
@@ -68,6 +70,9 @@ export async function saveUrl(url: string): Promise<SaveResult> {
     // Step 4: Fetch OG metadata for the URL (uses our other server action)
     const metadata = await fetchMetadata(url);
 
+    // Step 4.5: Ask Gemini to categorize, summarize, and tag the URL
+    const aiResult = await categorizeWithAI(metadata.title, metadata.description, url);
+
     // Step 5: Insert the save into the database
     const { error: insertError } = await supabase
         .from("saves")
@@ -75,9 +80,11 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             user_id: user.id,
             url: validated.data.url,
             title: metadata.title,
-            summary: metadata.description,
+            summary: aiResult.summary || metadata.description,
             image_url: metadata.image,
             source_type: metadata.siteName,
+            category: aiResult.category,
+            tags: aiResult.tags,
         });
 
     if (insertError) {
@@ -98,6 +105,8 @@ export async function saveUrl(url: string): Promise<SaveResult> {
         })
         .eq("user_id", user.id);
 
+    // revalidatePath tells Next.js to refresh the cached page data so new saves show up quickly without a manual refresh of the site 
+    revalidatePath("/")
     // Done! The URL is saved.
     return { success: true };
 }
