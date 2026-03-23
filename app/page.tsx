@@ -6,7 +6,13 @@
 import { PasteInput } from "@/components/paste-input";
 import { SaveList } from "@/components/save-list";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const { category, q } = await searchParams;
+
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-4xl px-6 py-12 space-y-10">
@@ -22,7 +28,10 @@ export default function Home() {
         <PasteInput />
 
         {/* Save list — shows all saved URLs as cards */}
-        <SaveList />
+        <SaveList
+          category={typeof category === "string" ? category : null}
+          searchQuery={typeof q === "string" ? q : null}
+        />
       </main>
     </div>
   );
