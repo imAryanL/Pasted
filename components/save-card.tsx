@@ -1,11 +1,19 @@
+"use client"
+
 // components/save-card.tsx
 // Displays a single saved URL as a card with its OG metadata.
-// Shows: image (if available), title, URL, and source type badge.
-// This is a Server Component — no interactivity needed, just display.
+// Shows: image, title, URL, source badge, and a delete button on hover.
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLink, Globe, Trash2 } from "lucide-react";
 import type { Save } from "@/types/save";
+import { Button } from "@/components/ui/button";
+import { deleteSave } from "@/lib/actions/delete-save";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel,
+  AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+  AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type SaveCardProps = {
   save: Save;
@@ -19,7 +27,38 @@ export function SaveCard({ save }: SaveCardProps) {
     .replace(/\/$/, "");
 
   return (
-    <Card className="overflow-hidden rounded-xl border-border/50 transition-colors hover:border-border">
+    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-colors hover:border-border">
+      {/* Delete button — only visible on hover, opens confirmation dialog */}
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:bg-destructive hover:text-destructive-foreground"
+          >
+            <Trash2 className="size-4" />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this save?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                await deleteSave(save.id);
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <a
         href={save.url}
         target="_blank"
