@@ -5,6 +5,7 @@
 
 import { PasteInput } from "@/components/paste-input";
 import { SaveList } from "@/components/save-list";
+import { StatsCards } from "@/components/stats-cards";
 
 export default async function Home({
   searchParams,
@@ -26,6 +27,9 @@ export default async function Home({
 
         {/* Paste input — user types/pastes a URL and saves it */}
         <PasteInput />
+
+        {/* Stats cards — total saves, this month, top category */}
+        <StatsCards />
 
         {/* Save list — shows all saved URLs as cards */}
         <SaveList
