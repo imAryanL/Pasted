@@ -17,14 +17,6 @@ export default async function Home({
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-4xl px-6 py-12 space-y-10">
-        {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight">Pasted</h1>
-          <p className="text-muted-foreground text-lg">
-            Paste it. Forget it. Find it.
-          </p>
-        </div>
-
         {/* Paste input — user types/pastes a URL and saves it */}
         <PasteInput />
 
