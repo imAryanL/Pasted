@@ -20,7 +20,7 @@
   import { LogOut, Settings } from "lucide-react"
   import Link from "next/link"
 
-  export function SidebarUserMenu({ user }: { user: User }) {
+  export function SidebarUserMenu({ user, tier }: { user: User; tier: string }) {
       const router = useRouter()
 
       const name = user.user_metadata?.full_name || "User"
@@ -46,7 +46,7 @@
                               </Avatar>
                               <div className="flex flex-col text-left">
                                   <span className="text-sm font-medium">{name}</span>
-                                  <span className="text-xs text-muted-foreground">Free Tier</span>
+                                  <span className="text-xs text-muted-foreground">{tier === "pro" ? "Pro Plan" : "Free Tier"}</span>
                               </div>
                           </SidebarMenuButton>
                       </DropdownMenuTrigger>
@@ -56,11 +56,9 @@
                               <p className="text-xs text-muted-foreground">{email}</p>
                           </div>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem asChild className="cursor-pointer">
-                              <Link href="/account">
-                                  <Settings className="mr-2 h-4 w-4" />
-                                  Account & Billing
-                              </Link>
+                          <DropdownMenuItem onClick={() => router.push("/account")} className="cursor-pointer">
+                              <Settings className="mr-2 h-4 w-4" />
+                              Account & Billing
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">

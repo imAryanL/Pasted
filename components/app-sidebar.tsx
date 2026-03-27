@@ -12,12 +12,10 @@
       SidebarContent,
       SidebarFooter,
       SidebarGroup,
-      SidebarGroupLabel,
       SidebarGroupContent,
       SidebarMenu,
       SidebarMenuItem,
   } from "@/components/ui/sidebar"
-  import { SidebarCategoryLinks } from "@/components/sidebar-category-links"
   import { SidebarUpgradeButton } from "@/components/sidebar-upgrade-button"
   import { SidebarUserMenu } from "@/components/sidebar-user-menu"
 
@@ -36,15 +34,6 @@
           .select("subscription_tier, saves_count")
           .eq("id", user.id)
           .single()
-
-      // Get distinct categories from the user's saves
-      const { data: saves } = await supabase
-          .from("saves")
-          .select("category")
-          .eq("user_id", user.id)
-
-      // Extract unique categories
-      const categories = [...new Set(saves?.map((s) => s.category).filter(Boolean))] as string[]
 
       // Count saves this month (for the usage bar)
       const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
@@ -83,13 +72,6 @@
                       </SidebarGroupContent>
                   </SidebarGroup>
 
-                  {/* Auto-tags — dynamic categories from the user's saves */}
-                  <SidebarGroup>
-                      <SidebarGroupLabel>Auto-Tags</SidebarGroupLabel>
-                      <SidebarGroupContent>
-                          <SidebarCategoryLinks categories={categories} />
-                      </SidebarGroupContent>
-                  </SidebarGroup>
               </SidebarContent>
 
               {/* Bottom — Usage bar, upgrade, user profile */}
@@ -117,7 +99,7 @@
                   )}
 
                   {/* User profile + sign out */}
-                  <SidebarUserMenu user={user} />
+                  <SidebarUserMenu user={user} tier={tier} />
               </SidebarFooter>
           </Sidebar>
       )

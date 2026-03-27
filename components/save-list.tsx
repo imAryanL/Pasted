@@ -11,6 +11,7 @@ import type { Save } from "@/types/save";
 import { Suspense } from "react";
 import { CategoryFilter } from "./category-filter";
 import { SearchBar } from "./search-bar";
+import { AnimatedSaveGrid, AnimatedCard } from "./animated-save-grid";
 
 export async function SaveList({ category, searchQuery }: { category?: string | null; searchQuery?: string | null }) {
   // Get the Supabase server client (reads cookies for auth)
@@ -102,11 +103,13 @@ export async function SaveList({ category, searchQuery }: { category?: string | 
           No saves found.
         </p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <AnimatedSaveGrid>
           {filteredSaves.map((save) => (
-            <SaveCard key={save.id} save={save} />
+            <AnimatedCard key={save.id}>
+              <SaveCard save={save} />
+            </AnimatedCard>
           ))}
-        </div>
+        </AnimatedSaveGrid>
       )}
     </div>
   );

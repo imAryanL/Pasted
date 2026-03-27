@@ -14,6 +14,7 @@ import {
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
   AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 type SaveCardProps = {
   save: Save;
@@ -27,7 +28,7 @@ export function SaveCard({ save }: SaveCardProps) {
     .replace(/\/$/, "");
 
   return (
-    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-colors hover:border-border">
+    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-colors hover:border-amber-500/30">
       {/* Delete button — only visible on hover, opens confirmation dialog */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -50,7 +51,12 @@ export function SaveCard({ save }: SaveCardProps) {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={async () => {
-                await deleteSave(save.id);
+                try {
+                  await deleteSave(save.id);
+                  toast.success("Save deleted");
+                } catch {
+                  toast.error("Failed to delete save");
+                }
               }}
             >
               Delete

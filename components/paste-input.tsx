@@ -11,16 +11,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { saveUrl } from "@/lib/actions/save-url";
 import { LinkIcon, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export function PasteInput() {
   // The URL the user has typed or pasted
   const [url, setUrl] = useState("");
-
-  // Feedback message — shows success or error after saving
-  const [message, setMessage] = useState<{
-    text: string;
-    type: "success" | "error";
-  } | null>(null);
 
   // useTransition gives us a pending state without blocking the UI.
   // While isPending is true, the Save button shows a spinner.
@@ -32,26 +27,15 @@ export function PasteInput() {
     // Don't do anything if the input is empty or we're already saving
     if (!url.trim() || isPending) return;
 
-    // Clear any previous message
-    setMessage(null);
-
     // Wrap the server action in startTransition so React tracks the async state
     startTransition(async () => {
       const result = await saveUrl(url.trim());
 
       if (result.success) {
-        // Clear the input and show a success message
         setUrl("");
-        setMessage({ text: "Saved!", type: "success" });
-
-        // Auto-clear the success message after 3 seconds
-        setTimeout(() => setMessage(null), 3000);
+        toast.success("URL saved successfully");
       } else {
-        // Show the error from the server action
-        setMessage({
-          text: result.error || "Something went wrong",
-          type: "error",
-        });
+        toast.error(result.error || "Something went wrong");
       }
     });
   };
@@ -98,18 +82,6 @@ export function PasteInput() {
         </Button>
       </div>
 
-      {/* Feedback message — appears below the input after save attempt */}
-      {message && (
-        <p
-          className={`text-sm pl-1 ${
-            message.type === "success"
-              ? "text-emerald-400"
-              : "text-destructive"
-          }`}
-        >
-          {message.text}
-        </p>
-      )}
     </div>
   );
 }
