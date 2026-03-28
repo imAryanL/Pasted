@@ -53,7 +53,7 @@ export async function StatsCards() {
       <Card>
         <CardContent className="pt-6">
           <div className="flex items-center gap-3">
-            <Bookmark className="size-5 text-amber-400" />
+            <Bookmark className="size-5 text-[#d4b9a3]" />
             <div>
               <p className="text-sm text-muted-foreground">Total Saves</p>
               <p className="text-3xl font-bold">{totalSaves}</p>
@@ -66,7 +66,7 @@ export async function StatsCards() {
       <Card>
         <CardContent className="pt-6">
           <div className="flex items-center gap-3">
-            <CalendarDays className="size-5 text-amber-400" />
+            <CalendarDays className="size-5 text-[#d4b9a3]" />
             <div>
               <p className="text-sm text-muted-foreground">Saves This Month</p>
               <p className="text-3xl font-bold">{savesThisMonth}</p>
@@ -79,7 +79,7 @@ export async function StatsCards() {
       <Card>
         <CardContent className="pt-6">
           <div className="flex items-center gap-3">
-            <FolderOpen className="size-5 text-amber-400" />
+            <FolderOpen className="size-5 text-[#d4b9a3]" />
             <div>
               <p className="text-sm text-muted-foreground">Top Category</p>
               <p className="text-3xl font-bold">{topCategory}</p>

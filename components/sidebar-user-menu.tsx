@@ -31,7 +31,7 @@
       const handleSignOut = async () => {
           const supabase = createClient()
           await supabase.auth.signOut()
-          router.push("/login")
+          window.location.href = "/login"
       }
 
       return (
@@ -39,30 +39,33 @@
               <SidebarMenuItem>
                   <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                          <SidebarMenuButton className="h-auto py-2 cursor-pointer">
-                              <Avatar size="sm">
+                          <SidebarMenuButton className="h-auto py-4 cursor-pointer">
+                              <Avatar className="h-10 w-10">
                                   <AvatarImage src={avatarUrl} alt={name} />
-                                  <AvatarFallback>{initials}</AvatarFallback>
+                                  <AvatarFallback className="text-base">{initials}</AvatarFallback>
                               </Avatar>
                               <div className="flex flex-col text-left">
-                                  <span className="text-sm font-medium">{name}</span>
-                                  <span className="text-xs text-muted-foreground">{tier === "pro" ? "Pro Plan" : "Free Tier"}</span>
+                                  <span className="text-lg font-medium">{name}</span>
+                                  <span className="text-sm text-muted-foreground">{tier === "pro" ? "Pro Plan" : "Free Tier"}</span>
                               </div>
                           </SidebarMenuButton>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent side="top" align="start" className="w-56">
-                          <div className="px-2 py-1.5">
-                              <p className="text-sm font-medium">{name}</p>
-                              <p className="text-xs text-muted-foreground">{email}</p>
+                      <DropdownMenuContent side="top" align="start" className="w-64">
+                          <div className="px-3 py-2">
+                              <p className="text-base font-medium">{name}</p>
+                              <p className="text-sm text-muted-foreground">{email}</p>
                           </div>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={() => router.push("/account")} className="cursor-pointer">
-                              <Settings className="mr-2 h-4 w-4" />
+                          <DropdownMenuItem
+                              onSelect={() => { window.location.href = "/account" }}
+                              className="cursor-pointer py-2.5 text-sm"
+                          >
+                              <Settings className="mr-2 h-5 w-5" />
                               Account & Billing
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
-                              <LogOut className="mr-2 h-4 w-4" />
+                          <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer py-2.5 text-sm">
+                              <LogOut className="mr-2 h-5 w-5" />
                               Sign out
                           </DropdownMenuItem>
                       </DropdownMenuContent>

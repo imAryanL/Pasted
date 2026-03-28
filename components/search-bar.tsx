@@ -42,7 +42,7 @@ export function SearchBar() {
         placeholder="Search saves..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="w-full h-12 rounded-xl bg-muted/50 border border-border pl-9 pr-9 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50"
+        className="w-full h-12 rounded-xl bg-muted/50 border border-border pl-9 pr-9 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#ccad97]/50 focus:border-[#ccad97]/50"
       />
       {query && (
         <button

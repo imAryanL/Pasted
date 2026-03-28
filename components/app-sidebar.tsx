@@ -50,8 +50,9 @@
       return (
           <Sidebar>
               {/* Top — Logo */}
-              <SidebarHeader className="p-4">
-                  <Link href="/" className="text-xl font-bold tracking-tight text-amber-500">
+              <SidebarHeader className="p-6">
+                  <Link href="/" className="flex items-center gap-3 text-2xl font-bold tracking-tight text-white">
+                      <img src="/pasted_icon_v1.png" alt="Pasted" className="h-9 w-9 rounded" />
                       Pasted.
                   </Link>
               </SidebarHeader>
@@ -63,8 +64,8 @@
                       <SidebarGroupContent>
                           <SidebarMenu>
                               <SidebarMenuItem>
-                                  <Link href="/" className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-                                      <Library className="h-4 w-4" />
+                                  <Link href="/" className="flex items-center gap-3 rounded-md px-3 py-2.5 text-base font-medium hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                                      <Library className="h-5 w-5" />
                                       <span>Library</span>
                                   </Link>
                               </SidebarMenuItem>
@@ -75,17 +76,17 @@
               </SidebarContent>
 
               {/* Bottom — Usage bar, upgrade, user profile */}
-              <SidebarFooter className="p-4 space-y-3">
+              <SidebarFooter className="p-6 space-y-4">
                   {/* Usage bar — only show for free users */}
                   {tier === "free" && (
-                      <div className="space-y-2">
-                          <div className="flex justify-between text-xs text-muted-foreground">
+                      <div className="space-y-3">
+                          <div className="flex justify-between text-base font-medium text-muted-foreground">
                               <span>Free Plan</span>
                               <span>{usage} / 30</span>
                           </div>
-                          <div className="h-2 rounded-full bg-muted">
+                          <div className="h-3 rounded-full bg-muted">
                               <div
-                                  className="h-2 rounded-full bg-amber-500"
+                                  className="h-3 rounded-full bg-[#ccad97]"
                                   style={{ width: `${Math.min((usage / 30) * 100, 100)}%` }}
                               />
                           </div>
@@ -95,7 +96,7 @@
 
                   {/* Pro users just see their plan */}
                   {tier === "pro" && (
-                      <div className="text-xs text-muted-foreground">Pro Plan — Unlimited saves</div>
+                      <div className="text-sm text-muted-foreground">Pro Plan — Unlimited saves</div>
                   )}
 
                   {/* User profile + sign out */}

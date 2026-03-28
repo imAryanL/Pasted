@@ -17,9 +17,10 @@
       return (
           <Button
               onClick={handleUpgrade}
-              className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold cursor-pointer"
+              size="lg"
+              className="w-full bg-[#ccad97] hover:bg-[#b89880] text-white font-semibold text-base h-12 cursor-pointer"
           >
-              <Zap className="mr-2 h-4 w-4" />
+              <Zap className="mr-2 h-5 w-5" />
               Upgrade to Pro
           </Button>
       )

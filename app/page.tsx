@@ -6,6 +6,8 @@
 import { PasteInput } from "@/components/paste-input";
 import { SaveList } from "@/components/save-list";
 import { StatsCards } from "@/components/stats-cards";
+import { Greeting } from "@/components/greeting";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function Home({
   searchParams,
@@ -14,9 +16,18 @@ export default async function Home({
 }) {
   const { category, q } = await searchParams;
 
+  // Get the user's name for the greeting
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const rawName = user?.user_metadata?.full_name?.split(" ")[0] || "there";
+  const name = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-4xl px-6 py-12 space-y-10">
+        {/* Personalized greeting */}
+        <Greeting name={name} />
+
         {/* Paste input — user types/pastes a URL and saves it */}
         <PasteInput />
 

@@ -38,7 +38,7 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
         }}
         className={`cursor-pointer rounded-full px-3 py-1 text-sm font-medium transition-colors ${
           !activeCategory
-            ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+            ? "bg-[#ccad97]/20 text-[#d4b9a3] border border-[#ccad97]/30"
             : "bg-muted text-muted-foreground hover:bg-muted/80"
         }`}
       >
@@ -51,7 +51,7 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
           onClick={() => handleCategoryClick(category)}
           className={`cursor-pointer rounded-full px-3 py-1 text-sm font-medium transition-colors ${
             activeCategory === category
-              ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+              ? "bg-[#ccad97]/20 text-[#d4b9a3] border border-[#ccad97]/30"
               : "bg-muted text-muted-foreground hover:bg-muted/80"
           }`}
         >

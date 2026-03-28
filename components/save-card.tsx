@@ -28,7 +28,7 @@ export function SaveCard({ save }: SaveCardProps) {
     .replace(/\/$/, "");
 
   return (
-    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-colors hover:border-amber-500/30">
+    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-colors hover:border-[#ccad97]/30">
       {/* Delete button — only visible on hover, opens confirmation dialog */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -40,15 +40,18 @@ export function SaveCard({ save }: SaveCardProps) {
             <Trash2 className="size-4" />
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-sm sm:max-w-md p-6">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete this save?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone.
+            <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10">
+              <Trash2 className="h-7 w-7 text-red-500" />
+            </div>
+            <AlertDialogTitle className="text-xl text-center">Delete this save?</AlertDialogTitle>
+            <AlertDialogDescription className="text-base text-center">
+              This action cannot be undone. The save and all its AI-generated data will be permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogFooter className="sm:justify-center gap-3 mt-2">
+            <AlertDialogCancel className="h-12 px-6 text-base cursor-pointer">Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={async () => {
                 try {
@@ -58,6 +61,7 @@ export function SaveCard({ save }: SaveCardProps) {
                   toast.error("Failed to delete save");
                 }
               }}
+              className="h-12 px-6 text-base bg-red-600 hover:bg-red-700 text-white cursor-pointer"
             >
               Delete
             </AlertDialogAction>
@@ -91,7 +95,7 @@ export function SaveCard({ save }: SaveCardProps) {
         <CardContent className="space-y-2 p-4">
           {/* Category badge — AI-generated label like "Entertainment", "Technology" */}
           {save.category && (
-            <span className="rounded-full bg-amber-500/15 text-amber-400 text-xs font-medium px-2.5 py-0.5">
+            <span className="rounded-full bg-[#ccad97]/15 text-[#d4b9a3] text-xs font-medium px-2.5 py-0.5">
           {save.category}
             </span>
           )}

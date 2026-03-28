@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { createClient } from "@/lib/supabase/server";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -20,21 +16,28 @@ export const metadata: Metadata = {
   description: "AI-powered bookmark manager. Paste any URL, get instant categorization, summaries, and tags.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${inter.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <SidebarProvider>
-          <AppSidebar />
+        {user ? (
+          <SidebarProvider>
+            <AppSidebar />
+            <main className="flex-1">{children}</main>
+          </SidebarProvider>
+        ) : (
           <main className="flex-1">{children}</main>
-        </SidebarProvider>
+        )}
         <Toaster position="top-center" />
       </body>
     </html>
