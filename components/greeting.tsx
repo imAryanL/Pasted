@@ -14,7 +14,7 @@ const subtitles = [
     "What caught your eye today?",
     "Your bookmarks, but smarter.",
     "Save now, thank yourself later.",
-    "Bookmarks that actually work for you",
+    "Bookmarks that actually work for you.",
     "Recall everything. Imagine the rest.",
     "The smarter way to bookmark."
 ]
@@ -41,10 +41,10 @@ export function Greeting({ name }: { name: string }) {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-4xl font-bold tracking-tight">
                 {greeting}, {name}.
             </h1>
-            <p className="text-muted-foreground mt-1">{subtitle}</p>
+            <p className="text-muted-foreground text-base mt-1">{subtitle}</p>
         </div>
     )
 }

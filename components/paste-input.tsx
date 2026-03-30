@@ -10,7 +10,7 @@ import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { saveUrl } from "@/lib/actions/save-url";
-import { LinkIcon, Loader2 } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export function PasteInput() {
@@ -42,18 +42,16 @@ export function PasteInput() {
 
   return (
     <div className="w-full space-y-3">
-      {/* Input row — URL field + Save button side by side */}
-      <div className="flex gap-3">
-        {/* URL input field */}
-        <div className="relative flex-1">
-          {/* Link icon inside the input for visual context */}
-          <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+      {/* Input row — pill-shaped container */}
+      <div className="relative max-w-3xl bg-[#a38771] p-3 rounded-[2rem] shadow-2xl flex gap-3">
+        
+        {/* Inner Recessed Container (Darker Beige) with Lighter Beige Focus Ring */}
+        <div className="flex-1 bg-[#806754] rounded-2xl border border-transparent focus-within:ring-2 focus-within:ring-[#e8cbb5] focus-within:border-transparent transition-all flex items-center">
           <Input
             type="url"
-            placeholder="Paste a URL..."
+            placeholder="Paste a URL to save - post, tweet, video, article"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            // Submit on Enter key — same as clicking Save
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -61,27 +59,27 @@ export function PasteInput() {
               }
             }}
             disabled={isPending}
-            className="pl-9 h-12 text-base rounded-xl"
+            className="w-full bg-transparent py-4 px-6 text-white placeholder:text-white/60 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none text-lg md:text-lg h-auto"
           />
         </div>
 
-        {/* Save button — shows spinner while the server action is running */}
+        {/* Save Button (Now White) */}
         <Button
           onClick={handleSave}
           disabled={isPending || !url.trim()}
-          className="h-12 px-6 text-base rounded-xl cursor-pointer"
+          className="bg-white text-black px-8 py-4 h-auto rounded-2xl font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 shadow-lg shrink-0 text-lg cursor-pointer"
         >
           {isPending ? (
             <>
-              <Loader2 className="size-4 animate-spin" />
+              <Loader2 className="size-4 animate-spin mr-2" />
               Saving...
             </>
           ) : (
             "Save"
           )}
         </Button>
+        
       </div>
-
     </div>
   );
 }

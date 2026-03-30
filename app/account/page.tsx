@@ -100,7 +100,7 @@ export default async function AccountPage() {
                             <div className="flex items-baseline justify-between">
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-5xl font-bold">{usage}</span>
-                                    <span className="text-xl text-muted-foreground">/ {tier === "pro" ? "∞" : "30"}</span>
+                                    <span className="text-xl text-muted-foreground">/ {tier === "pro" ? "∞" : "15"}</span>
                                 </div>
                                 <Badge className={tier === "pro"
                                     ? "bg-[#ccad97]/20 text-[#d4b9a3] border-[#ccad97]/30 text-sm px-3 py-1"
@@ -113,7 +113,7 @@ export default async function AccountPage() {
                             {tier === "free" && (
                                 <>
                                     <Progress
-                                        value={Math.min((usage / 30) * 100, 100)}
+                                        value={Math.min((usage / 15) * 100, 100)}
                                         className="h-3 [&>div]:bg-[#ccad97]"
                                     />
                                     <p className="text-sm text-muted-foreground text-right">Resets on {resetDateStr}</p>

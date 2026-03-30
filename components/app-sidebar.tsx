@@ -4,8 +4,8 @@
   // Interactive parts (category clicks, upgrade, sign out) are separate Client Components.
 
   import { createClient } from "@/lib/supabase/server"
-  import { Library } from "lucide-react"
   import Link from "next/link"
+  import { SidebarLibraryLink } from "@/components/sidebar-library-link"
   import {
       Sidebar,
       SidebarHeader,
@@ -18,6 +18,7 @@
   } from "@/components/ui/sidebar"
   import { SidebarUpgradeButton } from "@/components/sidebar-upgrade-button"
   import { SidebarUserMenu } from "@/components/sidebar-user-menu"
+  import { SidebarCategoryNav } from "@/components/sidebar-category-nav"
 
 
 
@@ -43,6 +44,18 @@
           .eq("user_id", user.id)
           .gte("created_at", startOfMonth)
 
+      // Get unique categories from the user's saves
+      const { data: saves } = await supabase
+          .from("saves")
+          .select("category")
+          .eq("user_id", user.id)
+
+      const categorySet = new Set<string>()
+      for (const save of saves ?? []) {
+          if (save.category) categorySet.add(save.category)
+      }
+      const categories = [...categorySet].sort()
+
       const tier = profile?.subscription_tier || "free"
       const usage = savesThisMonth || 0
 
@@ -53,7 +66,7 @@
               <SidebarHeader className="p-6">
                   <Link href="/" className="flex items-center gap-3 text-2xl font-bold tracking-tight text-white">
                       <img src="/pasted_icon_v1.png" alt="Pasted" className="h-9 w-9 rounded" />
-                      Pasted.
+                      Pasted
                   </Link>
               </SidebarHeader>
 
@@ -64,14 +77,13 @@
                       <SidebarGroupContent>
                           <SidebarMenu>
                               <SidebarMenuItem>
-                                  <Link href="/" className="flex items-center gap-3 rounded-md px-3 py-2.5 text-base font-medium hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-                                      <Library className="h-5 w-5" />
-                                      <span>Library</span>
-                                  </Link>
+                                  <SidebarLibraryLink />
                               </SidebarMenuItem>
                           </SidebarMenu>
                       </SidebarGroupContent>
                   </SidebarGroup>
+
+                  <SidebarCategoryNav categories={categories} />
 
               </SidebarContent>
 
@@ -82,12 +94,12 @@
                       <div className="space-y-3">
                           <div className="flex justify-between text-base font-medium text-muted-foreground">
                               <span>Free Plan</span>
-                              <span>{usage} / 30</span>
+                              <span>{usage} / 15</span>
                           </div>
                           <div className="h-3 rounded-full bg-muted">
                               <div
                                   className="h-3 rounded-full bg-[#ccad97]"
-                                  style={{ width: `${Math.min((usage / 30) * 100, 100)}%` }}
+                                  style={{ width: `${Math.min((usage / 15) * 100, 100)}%` }}
                               />
                           </div>
                           <SidebarUpgradeButton />

@@ -4,6 +4,7 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { FilterProvider } from "@/components/filter-context";
 import { createClient } from "@/lib/supabase/server";
 
 const inter = Inter({
@@ -12,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Pasted — Paste it. Forget it. Find it.",
+  title: "Pasted",
   description: "AI-powered bookmark manager. Paste any URL, get instant categorization, summaries, and tags.",
 };
 
@@ -31,10 +32,12 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         {user ? (
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="flex-1">{children}</main>
-          </SidebarProvider>
+          <FilterProvider>
+            <SidebarProvider>
+              <AppSidebar />
+              <main className="flex-1">{children}</main>
+            </SidebarProvider>
+          </FilterProvider>
         ) : (
           <main className="flex-1">{children}</main>
         )}

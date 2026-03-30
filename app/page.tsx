@@ -9,13 +9,7 @@ import { StatsCards } from "@/components/stats-cards";
 import { Greeting } from "@/components/greeting";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const { category, q } = await searchParams;
-
+export default async function Home() {
   // Get the user's name for the greeting
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -24,7 +18,7 @@ export default async function Home({
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="mx-auto max-w-4xl px-6 py-12 space-y-10">
+      <main className="mx-auto max-w-6xl px-6 py-12 space-y-10">
         {/* Personalized greeting */}
         <Greeting name={name} />
 
@@ -35,10 +29,7 @@ export default async function Home({
         <StatsCards />
 
         {/* Save list — shows all saved URLs as cards */}
-        <SaveList
-          category={typeof category === "string" ? category : null}
-          searchQuery={typeof q === "string" ? q : null}
-        />
+        <SaveList />
       </main>
     </div>
   );

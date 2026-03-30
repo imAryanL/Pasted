@@ -41,7 +41,7 @@
                       <DropdownMenuTrigger asChild>
                           <SidebarMenuButton className="h-auto py-4 cursor-pointer">
                               <Avatar className="h-10 w-10">
-                                  <AvatarImage src={avatarUrl} alt={name} />
+                                  <AvatarImage src={avatarUrl} alt={name} referrerPolicy="no-referrer" />
                                   <AvatarFallback className="text-base">{initials}</AvatarFallback>
                               </Avatar>
                               <div className="flex flex-col text-left">

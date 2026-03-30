@@ -62,8 +62,8 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             ? profile.saves_count_this_month
             : 0;
 
-        if (savesThisMonth >= 30) {
-            return { success: false, error: "Free tier limit reached (30 saves/month). Upgrade to Pro!" };
+        if (savesThisMonth >= 15) {
+            return { success: false, error: "Free tier limit reached (15 saves/month). Upgrade to Pro!" };
         }
     }
 
