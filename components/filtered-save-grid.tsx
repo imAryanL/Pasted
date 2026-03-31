@@ -34,24 +34,27 @@ export function FilteredSaveGrid({ saves }: { saves: Save[] }) {
 
   return (
     <div className="space-y-6">
-      {/* Search bar */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-        <input
-          type="text"
-          placeholder="Search saves..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full h-12 rounded-xl bg-muted/50 border border-border pl-9 pr-9 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#ccad97]/50 focus:border-[#ccad97]/50"
-        />
-        {searchQuery && (
-          <button
-            onClick={() => setSearchQuery("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground hover:text-foreground"
-          >
-            <X className="size-4" />
-          </button>
-        )}
+      {/* Section header with search */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold">Recent Saves</h2>
+        <div className="relative w-64">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Search saves..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full h-9 rounded-lg bg-muted/50 border border-border pl-9 pr-9 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#ccad97]"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-muted-foreground hover:text-foreground"
+            >
+              <X className="size-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       {filteredSaves.length === 0 ? (

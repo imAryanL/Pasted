@@ -4,7 +4,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bookmark, CalendarDays, FolderOpen } from "lucide-react";
+import { Bookmark, CalendarDays, FolderOpen, Pointer } from "lucide-react";
 
 export async function StatsCards() {
   // Get the Supabase client and current user (same pattern as SaveList)
@@ -16,7 +16,7 @@ export async function StatsCards() {
   // Query 1: Get all saves (just the category column) for total count + top category
   const { data: saves } = await supabase
     .from("saves")
-    .select("category")
+    .select("category, source_type")
     .eq("user_id", user.id);
 
   // Query 2: Get profile for monthly save count
@@ -47,38 +47,62 @@ export async function StatsCards() {
     Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ||
     "None yet";
 
+  // Calculate top platform by counting source_type
+  const platformCounts: Record<string, number> = {};
+  for (const save of saves ?? []) {
+    if (save.source_type) {
+      platformCounts[save.source_type] = (platformCounts[save.source_type] || 0) + 1;
+    }
+  }
+  const topPlatformRaw =
+    Object.entries(platformCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ||
+    "None yet";
+  // Clean up platform names like "X (formerly Twitter)" → "X"
+  const topPlatform = topPlatformRaw.replace(/\s*\(formerly.*?\)/, "");
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
       {/* Total Saves */}
       <Card>
-        <CardContent className="pt-6">
+        <CardContent>
           <div className="flex justify-between items-start">
-            <p className="text-base font-medium text-muted-foreground">Total Saves</p>
+            <p className="text-sm font-medium text-muted-foreground">Total Saves</p>
             <Bookmark className="size-7 text-[#d4b9a3]" />
           </div>
-          <p className="text-3xl font-bold mt-2">{totalSaves}</p>
+          <p className="text-xl font-bold mt-1 truncate">{totalSaves}</p>
         </CardContent>
       </Card>
 
       {/* Top Category */}
       <Card>
-        <CardContent className="pt-6">
+        <CardContent>
           <div className="flex justify-between items-start">
-            <p className="text-base font-medium text-muted-foreground">Top Category</p>
+            <p className="text-sm font-medium text-muted-foreground">Top Category</p>
             <FolderOpen className="size-7 text-[#d4b9a3]" />
           </div>
-          <p className="text-3xl font-bold mt-2">{topCategory}</p>
+          <p className="text-xl font-bold mt-1 truncate">{topCategory}</p>
         </CardContent>
       </Card>
 
       {/* Saves This Month */}
       <Card>
-        <CardContent className="pt-6">
+        <CardContent>
           <div className="flex justify-between items-start">
-            <p className="text-base font-medium text-muted-foreground">Saves This Month</p>
+            <p className="text-sm font-medium text-muted-foreground">Saves This Month</p>
             <CalendarDays className="size-7 text-[#d4b9a3]" />
           </div>
-          <p className="text-3xl font-bold mt-2">{savesThisMonth}</p>
+          <p className="text-xl font-bold mt-1 truncate">{savesThisMonth}</p>
+        </CardContent>
+      </Card>
+
+      {/* Top Platform */}
+      <Card>
+        <CardContent>
+          <div className="flex justify-between items-start">
+            <p className="text-sm font-medium text-muted-foreground">Top Platform</p>
+            <Pointer className="size-7 text-[#d4b9a3]" />
+          </div>
+          <p className="text-xl font-bold mt-1 truncate">{topPlatform}</p>
         </CardContent>
       </Card>
     </div>

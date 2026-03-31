@@ -10,7 +10,7 @@ import { useState, useTransition } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { saveUrl } from "@/lib/actions/save-url";
-import { Plus, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export function PasteInput() {
@@ -46,7 +46,7 @@ export function PasteInput() {
       <div className="relative max-w-3xl bg-[#a38771] p-3 rounded-[2rem] shadow-2xl flex gap-3">
         
         {/* Inner Recessed Container (Darker Beige) with Lighter Beige Focus Ring */}
-        <div className="flex-1 bg-[#806754] rounded-2xl border border-transparent focus-within:ring-2 focus-within:ring-[#e8cbb5] focus-within:border-transparent transition-all flex items-center">
+        <div className="flex-1 bg-[#806754] rounded-2xl border border-transparent focus-within:ring-[5px] focus-within:ring-[#d4c4b0] focus-within:border-transparent transition-all flex items-center">
           <Input
             type="url"
             placeholder="Paste a URL to save - post, tweet, video, article"

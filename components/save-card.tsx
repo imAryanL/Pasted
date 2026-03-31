@@ -28,7 +28,7 @@ export function SaveCard({ save }: SaveCardProps) {
     .replace(/\/$/, "");
 
   return (
-    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-colors hover:border-[#ccad97]/30">
+    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-all hover:ring-2 hover:ring-[#ccad97] pt-0 gap-0 h-[520px]">
       {/* Delete button — only visible on hover, opens confirmation dialog */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -77,7 +77,7 @@ export function SaveCard({ save }: SaveCardProps) {
       >
         {/* OG image — only render if we have one */}
         {save.image_url && (
-          <div className="relative h-40 w-full overflow-hidden bg-muted">
+          <div className="relative h-56 w-full overflow-hidden bg-muted">
             {/*
               Using a plain <img> instead of next/image here because OG images
               come from any domain. next/image requires configuring remotePatterns
@@ -87,7 +87,7 @@ export function SaveCard({ save }: SaveCardProps) {
             <img
               src={save.image_url}
               alt={save.title || "Saved link preview"}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain"
             />
           </div>
         )}
