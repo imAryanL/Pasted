@@ -8,6 +8,7 @@ export type Save = {
   user_id: string;
   url: string;
   title: string | null;
+  short_summary: string | null;
   summary: string | null;
   image_url: string | null;
   category: string | null;

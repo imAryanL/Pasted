@@ -9,6 +9,7 @@
 
 type AICategorization = {
     category: string;
+    short_summary: string;
     summary: string;
     tags: string[];
 }
@@ -23,22 +24,25 @@ const CATEGORIES = [
 
 const DEFAULT_RESULT: AICategorization = {
     category: "Other",
+    short_summary: "",
     summary: "",
     tags: [],
 };
 
 
-  // Main function — takes URL metadata, asks Gemini to categorize it
+  // Main function — takes URL metadata + optional image, asks Gemini to categorize it
   export async function categorizeWithAI(
       title: string | null,
       description: string | null,
-      url: string
+      url: string,
+      imageUrl: string | null = null
   ): Promise<AICategorization> {
       try {
         // Step 1: Build the prompt — tells Gemini exactly what JSON to return
-        const prompt = `Analyze this webpage and return a JSON object with exactly these fields:
+        const prompt = `Analyze this webpage${imageUrl ? " and its preview image" : ""} and return a JSON object with exactly these fields:
         - "category": one of [${CATEGORIES.join(", ")}]
-        - "summary": a 2-3 sentence summary of what this page is about
+        - "short_summary": exactly 1 concise sentence for a card preview. Get straight to the point — do NOT start with "This post", "This video", "This article", or "This X post". Just describe the content directly.
+        - "summary": a 2-3 sentence summary of what this page is about (for detailed view)
         - "tags": an array of 3-5 relevant single-word or short tags
 
         Webpage info:
@@ -48,13 +52,37 @@ const DEFAULT_RESULT: AICategorization = {
 
         Return ONLY valid JSON. No markdown, no code fences, no explanation.`;
 
+          // Step 2: Build contents — include image if available for better summaries
+          let contents: any;
 
-          // Step 2: Call Gemini Flash (JSON mode = clean output, no code fences)
+          if (imageUrl) {
+            try {
+              // Fetch the OG image and convert to base64 for Gemini vision
+              const imgResponse = await fetch(imageUrl);
+              const imageBuffer = await imgResponse.arrayBuffer();
+              const base64Image = Buffer.from(imageBuffer).toString("base64");
+              const mimeType = imgResponse.headers.get("content-type") || "image/jpeg";
+
+              contents = [
+                { inlineData: { mimeType, data: base64Image } },
+                { text: prompt },
+              ];
+            } catch {
+              // If image fetch fails, fall back to text-only
+              contents = prompt;
+            }
+          } else {
+            contents = prompt;
+          }
+
+          // Step 3: Call Gemini Flash (JSON mode = clean output, no code fences)
           const response = await gemini.models.generateContent({
               model: "gemini-2.5-flash",
-              contents: prompt,
+              contents,
               config: {
                   responseMimeType: "application/json",
+                  // Disable thinking — our task is simple classification, no reasoning needed
+                  thinkingConfig: { thinkingBudget: 0 },
               },
           });
 
@@ -68,6 +96,7 @@ const DEFAULT_RESULT: AICategorization = {
           // Step 4: Return the result, with fallbacks for bad data
           return {
               category: CATEGORIES.includes(parsed.category) ? parsed.category : "Other",
+              short_summary: parsed.short_summary || "",
               summary: parsed.summary || "",
               tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 5) : [],
           };

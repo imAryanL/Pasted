@@ -71,7 +71,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
     const metadata = await fetchMetadata(url);
 
     // Step 4.5: Ask Gemini to categorize, summarize, and tag the URL
-    const aiResult = await categorizeWithAI(metadata.title, metadata.description, url);
+    const aiResult = await categorizeWithAI(metadata.title, metadata.description, url, metadata.image);
 
     // Step 5: Insert the save into the database
     const { error: insertError } = await supabase
@@ -80,6 +80,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             user_id: user.id,
             url: validated.data.url,
             title: metadata.title,
+            short_summary: aiResult.short_summary || null,
             summary: aiResult.summary || metadata.description,
             image_url: metadata.image,
             source_type: metadata.siteName,
