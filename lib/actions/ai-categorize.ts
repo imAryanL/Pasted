@@ -8,6 +8,7 @@
   import { gemini } from "@/lib/gemini"
 
 type AICategorization = {
+    ai_title: string;
     category: string;
     short_summary: string;
     summary: string;
@@ -23,6 +24,7 @@ const CATEGORIES = [
 
 
 const DEFAULT_RESULT: AICategorization = {
+    ai_title: "",
     category: "Other",
     short_summary: "",
     summary: "",
@@ -40,6 +42,7 @@ const DEFAULT_RESULT: AICategorization = {
       try {
         // Step 1: Build the prompt — tells Gemini exactly what JSON to return
         const prompt = `Analyze this webpage${imageUrl ? " and its preview image" : ""} and return a JSON object with exactly these fields:
+        - "ai_title": a clean, descriptive title for this content in 3-8 words. Describe WHAT the content is about, not WHO posted it. Never include usernames, @handles, platform names (X, Instagram, TikTok, YouTube, Reddit), "on Instagram", "on X", hashtags, or emoji. Just a clear, human-readable title. Examples: "SpaceX Starship Test Flight Update", "Homemade Pasta Recipe Tutorial", "React Server Components Explained".
         - "category": one of [${CATEGORIES.join(", ")}]
         - "short_summary": exactly 1 concise sentence for a card preview. Get straight to the point — do NOT start with "This post", "This video", "This article", or "This X post". Just describe the content directly.
         - "summary": a 2-3 sentence summary of what this page is about (for detailed view)
@@ -95,6 +98,7 @@ const DEFAULT_RESULT: AICategorization = {
 
           // Step 4: Return the result, with fallbacks for bad data
           return {
+              ai_title: parsed.ai_title || "",
               category: CATEGORIES.includes(parsed.category) ? parsed.category : "Other",
               short_summary: parsed.short_summary || "",
               summary: parsed.summary || "",

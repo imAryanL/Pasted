@@ -80,6 +80,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             user_id: user.id,
             url: validated.data.url,
             title: metadata.title,
+            ai_title: aiResult.ai_title || null,
             short_summary: aiResult.short_summary || null,
             summary: aiResult.summary || metadata.description,
             image_url: metadata.image,

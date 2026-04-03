@@ -39,7 +39,8 @@ export function SaveCard({ save }: SaveCardProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:bg-destructive hover:text-destructive-foreground"
+            className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:!bg-red-600 hover:!text-white"
+
           >
             <Trash2 className="size-4" />
           </Button>
@@ -50,8 +51,8 @@ export function SaveCard({ save }: SaveCardProps) {
               <Trash2 className="h-7 w-7 text-red-500" />
             </div>
             <AlertDialogTitle className="text-xl text-center">Delete this save?</AlertDialogTitle>
-            <AlertDialogDescription className="text-base text-center">
-              This action cannot be undone. The save and all its AI-generated data will be permanently removed.
+            <AlertDialogDescription className="text-base text-left">
+              This can't be undone. Your save and its AI data will be gone for good.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="sm:justify-center gap-3 mt-2">
@@ -102,9 +103,9 @@ export function SaveCard({ save }: SaveCardProps) {
         )}
 
         <CardContent className="space-y-2 p-4">
-          {/* Title — falls back to the URL if no OG title was found */}
+          {/* Title — prefer AI-generated title, fall back to cleaned OG title, then URL */}
           <h3 className="font-semibold text-lg leading-snug line-clamp-2">
-            {save.title ? cleanTitle(save.title) : displayUrl}
+            {save.ai_title || (save.title ? cleanTitle(save.title) : displayUrl)}
           </h3>
           {/* AI summary — show short_summary on card, fall back to full summary for older saves */}
           {(save.short_summary || save.summary) && (

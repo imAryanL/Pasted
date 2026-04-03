@@ -28,6 +28,19 @@ export async function fetchMetadata(url: string): Promise<OgMetadata> {
     }
 
     try {
+
+        // Step 2a: TikTok blocks OG scraping, so use their oEmbed API instead
+        // Docs: https://developers.tiktok.com/doc/embed-videos/
+        if (url.includes("tiktok.com")) {
+            const response = await fetch(`https://www.tiktok.com/oembed?url=${url}`);
+            const data = await response.json();
+            return {
+                title: data.title || null,
+                description: data.title || null,
+                image: data.thumbnail_url || null,
+                siteName: data.provider_name || null,
+            };
+        }
         // Step 2: Fetch the HTML from the URL
         // - signal: AbortSignal.timeout(5000) = give up after 5 seconds (don't hang forever)
         // - User-Agent header = identifies our bot so sites don't block us
@@ -57,7 +70,22 @@ export async function fetchMetadata(url: string): Promise<OgMetadata> {
         const siteName = $('meta[property="og:site_name"]').attr("content") || null;
 
         // Step 6: Fallback — if no og:title exists, try the regular <title> tag
-        const title = ogTitle || $("title").text() || null;
+        let title = ogTitle || $("title").text() || null;
+
+        // Step 7: Clean up Instagram metadata — their OG tags are messy
+        // Title comes as: "Username on Instagram: "caption...""
+        // Description comes as: "130K likes, 149 comments - username on date: "caption...""
+        if (url.includes("instagram.com")) {
+            if (title) {
+                // Strip "Username on Instagram: " prefix, keep the caption
+                title = title.replace(/^.+?\s+on\s+Instagram:\s*/, "").replace(/^"|"$/g, "");
+            }
+            if (description) {
+                // Strip "XXK likes, XX comments - username on date: " prefix
+                const cleaned = description.replace(/^[\d.]+[KMB]?\s+likes?,\s*[\d.]+[KMB]?\s+comments?\s*-\s*.+?:\s*/, "");
+                return { title, description: cleaned || description, image, siteName };
+            }
+        }
 
         return { title, description, image, siteName };
 

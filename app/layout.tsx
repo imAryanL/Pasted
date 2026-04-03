@@ -41,7 +41,7 @@ export default async function RootLayout({
         ) : (
           <main className="flex-1">{children}</main>
         )}
-        <Toaster position="top-center" />
+        <Toaster position="top-center" toastOptions={{ style: { background: '#ffffff', color: '#000000' } }} />
       </body>
     </html>
   );
