@@ -4,11 +4,13 @@
 // Displays a single saved URL as a card with its OG metadata.
 // Shows: image, title, URL, source badge, and a delete button on hover.
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 import type { Save } from "@/types/save";
 import { Button } from "@/components/ui/button";
 import { deleteSave } from "@/lib/actions/delete-save";
+import { SaveDetailModal } from "./save-detail-modal";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
@@ -26,21 +28,22 @@ type SaveCardProps = {
 };
 
 export function SaveCard({ save }: SaveCardProps) {
+  const [open, setOpen] = useState(false);
   // Format the URL for display — strip protocol and trailing slash
   const displayUrl = save.url
     .replace(/^https?:\/\//, "")
     .replace(/\/$/, "");
 
   return (
-    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-all bg-zinc-800 hover:ring-2 hover:ring-[#ccad97] pt-0 gap-0 h-[500px]">
+    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-all bg-zinc-800 hover:ring-2 hover:ring-[#ccad97] pt-0 gap-0 h-[480px]">
       {/* Delete button — only visible on hover, opens confirmation dialog */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button
             variant="ghost"
             size="icon"
+            onClick={(e) => e.stopPropagation()}
             className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-background/80 hover:!bg-red-600 hover:!text-white"
-
           >
             <Trash2 className="size-4" />
           </Button>
@@ -74,12 +77,7 @@ export function SaveCard({ save }: SaveCardProps) {
         </AlertDialogContent>
       </AlertDialog>
 
-      <a
-        href={save.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block"
-      >
+      <div onClick={() => setOpen(true)} className="block cursor-pointer">
         {/* OG image — only render if we have one */}
         {save.image_url && (
           <div className="relative h-56 w-full overflow-hidden bg-zinc-800">
@@ -117,14 +115,17 @@ export function SaveCard({ save }: SaveCardProps) {
             {save.tags && save.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
                 {save.tags.map((tag) => (
-                    <span key={tag} className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+                    <span key={tag} className="rounded-full bg-[#ccad97]/15 px-2 py-0.5 text-xs text-[#ccad97]">
                         #{tag}
                     </span>
                 ))}
             </div>
             )}
         </CardContent>
-      </a>
+      </div>
+
+      {/* Detail modal — opens when card is clicked */}
+      <SaveDetailModal save={save} open={open} onOpenChange={setOpen} />
     </Card>
   );
 }
