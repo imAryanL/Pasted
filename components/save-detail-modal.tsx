@@ -10,7 +10,7 @@ import {
   Dialog, DialogContent,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Trash2, Calendar, Sparkles, Tag } from "lucide-react";
+import { ExternalLink, Trash2, Calendar, Sparkles, Tag, ImageOff } from "lucide-react";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
@@ -40,22 +40,26 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto bg-zinc-900 border-border/50 p-0 gap-0 [&>button]:z-20">
+      <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-zinc-900 border-border/50 p-0 gap-0 [&>button]:z-20">
         {/* Hero image with category badge overlay */}
-        {save.image_url && (
-          <div className="relative w-full overflow-hidden rounded-t-lg bg-zinc-800">
+        <div className="relative w-full overflow-hidden rounded-t-lg bg-zinc-900">
+          {save.image_url ? (
             <img
               src={save.image_url}
               alt={save.title || "Saved link preview"}
-              className="w-full max-h-80 object-contain"
+              className="w-full max-h-90 object-contain"
             />
-            {save.category && (
-              <span className="absolute top-4 left-4 rounded-full bg-black/70 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white">
-                {save.category}
-              </span>
-            )}
-          </div>
-        )}
+          ) : (
+            <div className="flex w-full items-center justify-center h-60">
+              <ImageOff className="h-20 w-20 text-zinc-700" />
+            </div>
+          )}
+          {save.category && (
+            <span className="absolute top-4 left-4 rounded-full bg-black/70 backdrop-blur-sm px-4 py-1.5 text-sm font-semibold text-white">
+              {save.category}
+            </span>
+          )}
+        </div>
 
         {/* Content body */}
         <div className="px-6 pt-5 pb-6 space-y-5">
@@ -83,7 +87,7 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
 
           {/* AI Summary card */}
           {save.summary && (
-            <div className="rounded-lg border border-border/50 bg-zinc-800/50 p-4 space-y-2 overflow-hidden">
+            <div className="rounded-lg border-1 border-[#ccad97]/40 bg-zinc-900/50 p-4 space-y-2 overflow-hidden">
               <div className="flex items-center gap-2 text-sm font-semibold text-[#ccad97]">
                 <Sparkles className="size-4" />
                 AI Generated Summary
@@ -103,7 +107,7 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
               </div>
               <div className="flex flex-wrap gap-2">
                 {save.tags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-border/50 bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
+                  <span key={tag} className="rounded-full bg-[#ccad97]/15 px-3 py-1 text-xs text-[#ccad97]">
                     #{tag}
                   </span>
                 ))}
@@ -112,12 +116,12 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
           )}
 
           {/* Action footer — Delete left, Open Original right */}
-          <div className="flex items-center justify-between pt-3 border-t border-border/30">
+          <div className="flex items-center justify-between pt-3">
             {/* Delete with confirmation */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <button className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors cursor-pointer">
-                  <Trash2 className="size-4" />
+                <button className="flex items-center gap-2 text-base text-red-400 hover:text-red-300 transition-colors cursor-pointer py-2 px-4">
+                  <Trash2 className="size-5" />
                   Delete Save
                 </button>
               </AlertDialogTrigger>
@@ -152,10 +156,10 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
             </AlertDialog>
 
             {/* Open original button */}
-            <Button asChild className="bg-[#ccad97] text-black hover:!bg-[#b89a82] cursor-pointer px-6">
+            <Button asChild className="bg-[#ccad97] text-black hover:!bg-[#b89a82] cursor-pointer px-8 py-3 h-auto text-base">
               <a href={save.url} target="_blank" rel="noopener noreferrer">
                 Open Original
-                <ExternalLink className="size-4 ml-2" />
+                <ExternalLink className="size-5 ml-2" />
               </a>
             </Button>
           </div>

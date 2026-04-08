@@ -87,6 +87,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             source_type: metadata.siteName,
             category: aiResult.category,
             tags: aiResult.tags,
+            actionable_steps: aiResult.actionable_steps,
         });
 
     if (insertError) {

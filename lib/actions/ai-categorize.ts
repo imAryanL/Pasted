@@ -13,6 +13,7 @@ type AICategorization = {
     short_summary: string;
     summary: string;
     tags: string[];
+    actionable_steps: Array<{ id: string; text: string; completed: boolean }>;
 }
 
 
@@ -29,6 +30,7 @@ const DEFAULT_RESULT: AICategorization = {
     short_summary: "",
     summary: "",
     tags: [],
+    actionable_steps: [],
 };
 
 
@@ -45,8 +47,9 @@ const DEFAULT_RESULT: AICategorization = {
         - "ai_title": a clean, descriptive title for this content in 3-8 words. Describe WHAT the content is about, not WHO posted it. Never include usernames, @handles, platform names (X, Instagram, TikTok, YouTube, Reddit), "on Instagram", "on X", hashtags, or emoji. Just a clear, human-readable title. Examples: "SpaceX Starship Test Flight Update", "Homemade Pasta Recipe Tutorial", "React Server Components Explained".
         - "category": one of [${CATEGORIES.join(", ")}]
         - "short_summary": exactly 1 concise sentence for a card preview. Get straight to the point — do NOT start with "This post", "This video", "This article", or "This X post". Just describe the content directly.
-        - "summary": a 2-3 sentence summary of what this page is about (for detailed view)
+        - "summary": a detailed 4-6 sentence summary of what this page is about. Include key details, context, and why it matters. This is for a detailed modal view so be thorough.
         - "tags": an array of 3-5 relevant single-word or short tags
+        - "actionable_steps": Think about whether a reader could realistically DO something based on this content. For tutorials/recipes/guides, extract the actual steps. For other content where action makes sense (fitness tips → "Add this to your workout", product reviews → "Compare prices", travel content → "Research flights", cooking posts → "Try making this recipe"), generate 3-5 creative but relevant steps. Only return an empty array [] if there's genuinely nothing actionable (random memes, celebrity gossip, pure entertainment with no takeaway). Use your judgment. Format: array of objects with "id" (string starting from "1"), "text" (short imperative action), and "completed" (always false).
 
         Webpage info:
         - URL: ${url}
@@ -103,6 +106,7 @@ const DEFAULT_RESULT: AICategorization = {
               short_summary: parsed.short_summary || "",
               summary: parsed.summary || "",
               tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 5) : [],
+              actionable_steps: Array.isArray(parsed.actionable_steps) ? parsed.actionable_steps : [],
           };
 
       } catch {

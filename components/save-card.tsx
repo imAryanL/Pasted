@@ -6,7 +6,7 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Trash2 } from "lucide-react";
+import { Trash2, ImageOff } from "lucide-react";
 import type { Save } from "@/types/save";
 import { Button } from "@/components/ui/button";
 import { deleteSave } from "@/lib/actions/delete-save";
@@ -35,7 +35,7 @@ export function SaveCard({ save }: SaveCardProps) {
     .replace(/\/$/, "");
 
   return (
-    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-all bg-zinc-800 hover:ring-2 hover:ring-[#ccad97] pt-0 gap-0 h-[480px]">
+    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-all bg-zinc-900 hover:ring-2 hover:ring-[#ccad97] pt-0 gap-0 h-[480px]">
       {/* Delete button — only visible on hover, opens confirmation dialog */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -78,27 +78,25 @@ export function SaveCard({ save }: SaveCardProps) {
       </AlertDialog>
 
       <div onClick={() => setOpen(true)} className="block cursor-pointer">
-        {/* OG image — only render if we have one */}
-        {save.image_url && (
-          <div className="relative h-56 w-full overflow-hidden bg-zinc-800">
-            {/*
-              Using a plain <img> instead of next/image here because OG images
-              come from any domain. next/image requires configuring remotePatterns
-              for every possible domain, which is impractical for a bookmark app.
-              We'll optimize this later if needed.
-            */}
+        {/* OG image or placeholder */}
+        <div className="relative h-56 w-full overflow-hidden bg-zinc-900">
+          {save.image_url ? (
             <img
               src={save.image_url}
               alt={save.title || "Saved link preview"}
               className="h-full w-full object-contain"
             />
-            {save.source_type && (
-              <span className="absolute top-4 left-2 rounded-full bg-white/80 backdrop-blur-sm px-2.5 py-0.5 text-xs font-bold text-black">
-                {save.source_type.replace(/\s*\(.*?\)/, "")}
-              </span>
-            )}
-          </div>
-        )}
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <ImageOff className="h-16 w-16 text-zinc-700" />
+            </div>
+          )}
+          {save.source_type && (
+            <span className="absolute top-4 left-2 rounded-full bg-white/80 backdrop-blur-sm px-2.5 py-0.5 text-xs font-bold text-black">
+              {save.source_type.replace(/\s*\(.*?\)/, "")}
+            </span>
+          )}
+        </div>
 
         <CardContent className="space-y-2 p-4">
           {/* Title — prefer AI-generated title, fall back to cleaned OG title, then URL */}

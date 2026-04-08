@@ -19,4 +19,5 @@ export type Save = {
   remind_at: string | null;
   is_link_dead: boolean;
   created_at: string;
+  actionable_steps: Array<{ id: string; text: string; completed: boolean }> | null;
 };

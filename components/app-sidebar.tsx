@@ -6,6 +6,7 @@
   import { createClient } from "@/lib/supabase/server"
   import Link from "next/link"
   import { SidebarLibraryLink } from "@/components/sidebar-library-link"
+  import { SidebarActionablesLink } from "@/components/sidebar-actionables-link"
   import {
       Sidebar,
       SidebarHeader,
@@ -78,6 +79,9 @@
                           <SidebarMenu>
                               <SidebarMenuItem>
                                   <SidebarLibraryLink />
+                              </SidebarMenuItem>
+                              <SidebarMenuItem>
+                                  <SidebarActionablesLink />
                               </SidebarMenuItem>
                           </SidebarMenu>
                       </SidebarGroupContent>

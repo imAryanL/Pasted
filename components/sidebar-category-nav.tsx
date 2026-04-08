@@ -6,6 +6,7 @@
 
 import { Hash } from "lucide-react";
 import { useFilter } from "./filter-context";
+import { usePathname, useRouter } from "next/navigation";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -16,6 +17,8 @@ import {
 
 export function SidebarCategoryNav({ categories }: { categories: string[] }) {
   const { category: activeCategory, setCategory } = useFilter();
+  const pathname = usePathname();
+  const router = useRouter();
 
   if (categories.length === 0) return null;
 
@@ -29,14 +32,14 @@ export function SidebarCategoryNav({ categories }: { categories: string[] }) {
           {categories.map((category) => (
             <SidebarMenuItem key={category}>
               <button
-                onClick={() => setCategory(category)}
-                className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium cursor-pointer transition-colors active:scale-95 ${
+                onClick={() => { setCategory(category); if (pathname !== "/") router.push("/"); }}
+                className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-bold cursor-pointer transition-colors active:scale-95 ${
                   activeCategory === category
                     ? "bg-sidebar-accent text-white"
                     : "text-muted-foreground hover:bg-sidebar-accent hover:text-white"
                 }`}
               >
-                <Hash className="h-4 w-4" />
+                <Hash className="h-4 w-4" strokeWidth={2.5} />
                 {category}
               </button>
             </SidebarMenuItem>
