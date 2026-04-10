@@ -102,7 +102,7 @@
                           </div>
                           <div className="h-3 rounded-full bg-muted">
                               <div
-                                  className="h-3 rounded-full bg-[#ccad97]"
+                                  className="h-3 rounded-full bg-[#b89478]"
                                   style={{ width: `${Math.min((usage / 15) * 100, 100)}%` }}
                               />
                           </div>

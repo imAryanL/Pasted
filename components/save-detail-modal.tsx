@@ -74,7 +74,7 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
               href={save.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-[#ccad97] hover:underline truncate"
+              className="flex items-center gap-1.5 text-[#b89478] hover:underline truncate"
             >
               <ExternalLink className="size-3.5 shrink-0" />
               {save.source_type?.replace(/\s*\(.*?\)/, "") || displayUrl}
@@ -87,10 +87,10 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
 
           {/* AI Summary card */}
           {save.summary && (
-            <div className="rounded-lg border-1 border-[#ccad97]/40 bg-zinc-900/50 p-4 space-y-2 overflow-hidden">
-              <div className="flex items-center gap-2 text-sm font-semibold text-[#ccad97]">
+            <div className="rounded-lg border-1 border-[#b89478]/40 bg-zinc-900/50 p-4 space-y-2 overflow-hidden">
+              <div className="flex items-center gap-2 text-sm font-semibold text-[#b89478]">
                 <Sparkles className="size-4" />
-                AI Generated Summary
+                Pasted AI Summary
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed break-words">
                 {save.summary}
@@ -107,7 +107,7 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
               </div>
               <div className="flex flex-wrap gap-2">
                 {save.tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-[#ccad97]/15 px-3 py-1 text-xs text-[#ccad97]">
+                  <span key={tag} className="rounded-full bg-[#b89478]/15 px-3 py-1 text-xs text-[#b89478]">
                     #{tag}
                   </span>
                 ))}
@@ -156,7 +156,7 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
             </AlertDialog>
 
             {/* Open original button */}
-            <Button asChild className="bg-[#ccad97] text-black hover:!bg-[#b89a82] cursor-pointer px-8 py-3 h-auto text-base">
+            <Button asChild className="bg-[#b89478] text-white hover:!bg-[#c4a48b] cursor-pointer px-8 py-3 h-auto text-base">
               <a href={save.url} target="_blank" rel="noopener noreferrer">
                 Open Original
                 <ExternalLink className="size-5 ml-2" />

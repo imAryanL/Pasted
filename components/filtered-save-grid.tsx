@@ -44,7 +44,7 @@ export function FilteredSaveGrid({ saves }: { saves: Save[] }) {
             placeholder="Search saves..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-9 rounded-lg bg-muted/50 border border-border pl-9 pr-9 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#ccad97]"
+            className="w-full h-9 rounded-lg bg-muted/50 border border-border pl-9 pr-9 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#b89478]"
           />
           {searchQuery && (
             <button

@@ -35,7 +35,7 @@ export function SaveCard({ save }: SaveCardProps) {
     .replace(/\/$/, "");
 
   return (
-    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-all bg-zinc-900 hover:ring-2 hover:ring-[#ccad97] pt-0 gap-0 h-[480px]">
+    <Card className="group relative overflow-hidden rounded-xl border-border/50 transition-all bg-zinc-800 hover:ring-2 hover:ring-[#b89478] pt-0 gap-0 h-[480px]">
       {/* Delete button — only visible on hover, opens confirmation dialog */}
       <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -79,7 +79,7 @@ export function SaveCard({ save }: SaveCardProps) {
 
       <div onClick={() => setOpen(true)} className="block cursor-pointer">
         {/* OG image or placeholder */}
-        <div className="relative h-56 w-full overflow-hidden bg-zinc-900">
+        <div className="relative h-56 w-full overflow-hidden bg-zinc-800">
           {save.image_url ? (
             <img
               src={save.image_url}
@@ -113,7 +113,7 @@ export function SaveCard({ save }: SaveCardProps) {
             {save.tags && save.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
                 {save.tags.map((tag) => (
-                    <span key={tag} className="rounded-full bg-[#ccad97]/15 px-2 py-0.5 text-xs text-[#ccad97]">
+                    <span key={tag} className="rounded-full bg-[#b89478]/15 px-2 py-0.5 text-xs text-[#b89478]">
                         #{tag}
                     </span>
                 ))}

@@ -20,4 +20,5 @@ export type Save = {
   is_link_dead: boolean;
   created_at: string;
   actionable_steps: Array<{ id: string; text: string; completed: boolean }> | null;
+  action_type: string | null; // e.g. "Cook", "Watch", "Read", "Build", "Try"
 };

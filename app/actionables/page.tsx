@@ -27,19 +27,48 @@ export default async function ActionablesPage() {
         s => s.actionable_steps && s.actionable_steps.length > 0
     )
 
+    // Compute stats for the header
+    const pendingCount = actionableSaves.filter(
+        s => s.actionable_steps!.some(step => !step.completed)
+    ).length
+    const avgCompletion = actionableSaves.length > 0
+        ? Math.round(
+            actionableSaves.reduce((sum, s) => {
+                const steps = s.actionable_steps!
+                return sum + (steps.filter(st => st.completed).length / steps.length) * 100
+            }, 0) / actionableSaves.length
+        )
+        : 0
+
     return (
         <div className="mx-auto max-w-6xl px-6 py-12 space-y-8">
-            {/* Page header */}
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">Actionables</h1>
-                <p className="text-muted-foreground mt-1">
-                    AI-generated action steps from your saves. Check them off as you go.
-                </p>
+            {/* Page header with stats */}
+            <div className="flex items-start justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Actionables</h1>
+                    <p className="text-muted-foreground mt-1">
+                        Turn your saved bookmarks into completed tasks.
+                    </p>
+                </div>
+
+                {actionableSaves.length > 0 && (
+                    <div className="flex rounded-xl border border-border/50 bg-zinc-800 overflow-hidden">
+                        <div className="px-5 py-3 text-center">
+                            <p className="text-2xl font-bold text-[#b89478]">{pendingCount}</p>
+                            <p className="text-xs text-muted-foreground">Pending Tasks</p>
+                        </div>
+                        <div className="w-px bg-border/50" />
+                        <div className="px-5 py-3 text-center">
+                            <p className="text-2xl font-bold text-[#b89478]">{avgCompletion}%</p>
+                            <p className="text-xs text-muted-foreground">Avg Completion</p>
+                        </div>
+                    </div>
+                )}
             </div>
 
-            {/* Cards grid or empty state */}
+            {/* Stacked cards or empty state */}
             {actionableSaves.length > 0 ? (
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="space-y-4">
                     {actionableSaves.map(save => (
                         <ActionableCard key={save.id} save={save} />
                     ))}
@@ -49,7 +78,7 @@ export default async function ActionablesPage() {
                     <ClipboardCheck className="size-12 text-muted-foreground/40 mb-4" />
                     <h2 className="text-xl font-semibold">No actionables yet</h2>
                     <p className="text-muted-foreground mt-2 max-w-md">
-                        Save some tutorials, how-to guides, or recipes and we'll automatically extract action steps for you.
+                        Save any link and we'll use AI to extract actionable next steps you can check off.
                     </p>
                 </div>
             )}

@@ -88,6 +88,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             category: aiResult.category,
             tags: aiResult.tags,
             actionable_steps: aiResult.actionable_steps,
+            action_type: aiResult.action_type || null,
         });
 
     if (insertError) {

@@ -63,7 +63,7 @@ export async function StatsCards() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
       {/* Total Saves */}
-      <Card>
+      <Card className="bg-zinc-800">
         <CardContent>
           <div className="flex justify-between items-start">
             <p className="text-sm font-medium text-muted-foreground">Total Saves</p>
@@ -74,7 +74,7 @@ export async function StatsCards() {
       </Card>
 
       {/* Top Category */}
-      <Card>
+      <Card className="bg-zinc-800">
         <CardContent>
           <div className="flex justify-between items-start">
             <p className="text-sm font-medium text-muted-foreground">Top Category</p>
@@ -85,7 +85,7 @@ export async function StatsCards() {
       </Card>
 
       {/* Saves This Month */}
-      <Card>
+      <Card className="bg-zinc-800">
         <CardContent>
           <div className="flex justify-between items-start">
             <p className="text-sm font-medium text-muted-foreground">Saves This Month</p>
@@ -96,7 +96,7 @@ export async function StatsCards() {
       </Card>
 
       {/* Top Platform */}
-      <Card>
+      <Card className="bg-zinc-800">
         <CardContent>
           <div className="flex justify-between items-start">
             <p className="text-sm font-medium text-muted-foreground">Top Platform</p>

@@ -14,6 +14,7 @@ type AICategorization = {
     summary: string;
     tags: string[];
     actionable_steps: Array<{ id: string; text: string; completed: boolean }>;
+    action_type: string;
 }
 
 
@@ -31,6 +32,7 @@ const DEFAULT_RESULT: AICategorization = {
     summary: "",
     tags: [],
     actionable_steps: [],
+    action_type: "",
 };
 
 
@@ -49,6 +51,7 @@ const DEFAULT_RESULT: AICategorization = {
         - "short_summary": exactly 1 concise sentence for a card preview. Get straight to the point — do NOT start with "This post", "This video", "This article", or "This X post". Just describe the content directly.
         - "summary": a detailed 4-6 sentence summary of what this page is about. Include key details, context, and why it matters. This is for a detailed modal view so be thorough.
         - "tags": an array of 3-5 relevant single-word or short tags
+        - "action_type": a single action verb that best describes what the reader should do with this content. Pick one: "Cook", "Watch", "Read", "Build", "Try", "Learn", "Buy", "Visit", "Listen", "Exercise", or "Explore". If no actionable steps, return "".
         - "actionable_steps": Think about whether a reader could realistically DO something based on this content. For tutorials/recipes/guides, extract the actual steps. For other content where action makes sense (fitness tips → "Add this to your workout", product reviews → "Compare prices", travel content → "Research flights", cooking posts → "Try making this recipe"), generate 3-5 creative but relevant steps. Only return an empty array [] if there's genuinely nothing actionable (random memes, celebrity gossip, pure entertainment with no takeaway). Use your judgment. Format: array of objects with "id" (string starting from "1"), "text" (short imperative action), and "completed" (always false).
 
         Webpage info:
@@ -107,6 +110,7 @@ const DEFAULT_RESULT: AICategorization = {
               summary: parsed.summary || "",
               tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 5) : [],
               actionable_steps: Array.isArray(parsed.actionable_steps) ? parsed.actionable_steps : [],
+              action_type: parsed.action_type || "",
           };
 
       } catch {

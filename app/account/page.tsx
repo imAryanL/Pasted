@@ -103,7 +103,7 @@ export default async function AccountPage() {
                                     <span className="text-xl text-muted-foreground">/ {tier === "pro" ? "∞" : "15"}</span>
                                 </div>
                                 <Badge className={tier === "pro"
-                                    ? "bg-[#ccad97]/20 text-[#d4b9a3] border-[#ccad97]/30 text-sm px-3 py-1"
+                                    ? "bg-[#b89478]/20 text-[#d4b9a3] border-[#b89478]/30 text-sm px-3 py-1"
                                     : "text-sm px-3 py-1"
                                 } variant={tier === "pro" ? "default" : "secondary"}>
                                     {tier === "pro" ? "Pro Plan" : "Free Plan"}
@@ -114,7 +114,7 @@ export default async function AccountPage() {
                                 <>
                                     <Progress
                                         value={Math.min((usage / 15) * 100, 100)}
-                                        className="h-3 [&>div]:bg-[#ccad97]"
+                                        className="h-3 [&>div]:bg-[#b89478]"
                                     />
                                     <p className="text-sm text-muted-foreground text-right">Resets on {resetDateStr}</p>
                                 </>
@@ -143,7 +143,7 @@ export default async function AccountPage() {
 
                 {/* Right column — Upgrade to Pro promo */}
                 {tier === "free" && (
-                    <div className="relative overflow-hidden rounded-xl p-8 bg-[#ccad97] h-fit lg:sticky lg:top-8">
+                    <div className="relative overflow-hidden rounded-xl p-8 bg-[#b89478] h-fit lg:sticky lg:top-8">
                         {/* Decorative Zap icon in background */}
                         <Zap className="absolute right-6 top-1/2 -translate-y-1/2 h-40 w-40 text-white/15" strokeWidth={1.5} />
 
