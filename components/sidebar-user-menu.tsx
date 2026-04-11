@@ -17,8 +17,7 @@
       DropdownMenuSeparator,
   } from "@/components/ui/dropdown-menu"
   import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
-  import { LogOut, Settings } from "lucide-react"
-  import Link from "next/link"
+  import { LogOut, Settings, Shield } from "lucide-react"
 
   export function SidebarUserMenu({ user, tier }: { user: User; tier: string }) {
       const router = useRouter()
@@ -57,11 +56,18 @@
                           </div>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
-                              onSelect={() => { window.location.href = "/account" }}
+                              onSelect={() => { router.push("/account") }}
                               className="cursor-pointer py-2.5 text-sm"
                           >
                               <Settings className="mr-2 h-5 w-5" />
                               Account & Billing
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                              onSelect={() => { router.push("/privacy") }}
+                              className="cursor-pointer py-2.5 text-sm"
+                          >
+                              <Shield className="mr-2 h-5 w-5" />
+                              Privacy Policy
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer py-2.5 text-sm">

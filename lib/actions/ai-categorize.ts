@@ -66,6 +66,10 @@ const DEFAULT_RESULT: AICategorization = {
 
           if (imageUrl) {
             try {
+              // Only fetch http/https images (block file://, ftp://, etc.)
+              const imgParsed = new URL(imageUrl);
+              if (!['http:', 'https:'].includes(imgParsed.protocol)) throw new Error('bad protocol');
+
               // Fetch the OG image and convert to base64 for Gemini vision
               const imgResponse = await fetch(imageUrl);
               const imageBuffer = await imgResponse.arrayBuffer();

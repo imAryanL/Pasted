@@ -27,6 +27,12 @@ export async function fetchMetadata(url: string): Promise<OgMetadata> {
         return { title: null, description: null, image: null, siteName: null };
     }
 
+    // Step 1b: Only allow http/https protocols (block file://, ftp://, etc.)
+    const parsed = new URL(url);
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+        return { title: null, description: null, image: null, siteName: null };
+    }
+
     try {
 
         // Step 2a: TikTok blocks OG scraping, so use their oEmbed API instead

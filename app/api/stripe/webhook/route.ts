@@ -32,10 +32,20 @@ export async function POST(request: Request) {
     case "customer.subscription.updated": {
       const subscription = event.data.object as Stripe.Subscription;
 
-      await supabaseAdmin
+      // Only grant Pro if the subscription is active or trialing
+      const tier = subscription.status === "active" || subscription.status === "trialing"
+        ? "pro"
+        : "free";
+
+      const { error: updateError } = await supabaseAdmin
         .from("profiles")
-        .update({ subscription_tier: "pro" })
+        .update({ subscription_tier: tier })
         .eq("stripe_customer_id", subscription.customer as string);
+
+      if (updateError) {
+        console.error("Failed to update subscription tier:", updateError);
+        return NextResponse.json({ error: "DB update failed" }, { status: 500 });
+      }
 
       break;
     }
@@ -43,10 +53,15 @@ export async function POST(request: Request) {
     case "customer.subscription.deleted": {
       const subscription = event.data.object as Stripe.Subscription;
 
-      await supabaseAdmin
+      const { error: deleteError } = await supabaseAdmin
         .from("profiles")
         .update({ subscription_tier: "free" })
         .eq("stripe_customer_id", subscription.customer as string);
+
+      if (deleteError) {
+        console.error("Failed to downgrade subscription:", deleteError);
+        return NextResponse.json({ error: "DB update failed" }, { status: 500 });
+      }
 
       break;
     }

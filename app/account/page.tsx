@@ -22,7 +22,7 @@ export default async function AccountPage() {
     const { data: profile } = await supabase
         .from("profiles")
         .select("subscription_tier")
-        .eq("id", user.id)
+        .eq("user_id", user.id)
         .single()
 
     // Count saves this month (same query as app-sidebar.tsx lines 50-55)
@@ -100,7 +100,7 @@ export default async function AccountPage() {
                             <div className="flex items-baseline justify-between">
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-5xl font-bold">{usage}</span>
-                                    <span className="text-xl text-muted-foreground">/ {tier === "pro" ? "∞" : "15"}</span>
+                                    <span className="text-xl text-muted-foreground">/ {tier === "pro" ? "∞" : "10"}</span>
                                 </div>
                                 <Badge className={tier === "pro"
                                     ? "bg-[#b89478]/20 text-[#d4b9a3] border-[#b89478]/30 text-sm px-3 py-1"
@@ -113,7 +113,7 @@ export default async function AccountPage() {
                             {tier === "free" && (
                                 <>
                                     <Progress
-                                        value={Math.min((usage / 15) * 100, 100)}
+                                        value={Math.min((usage / 10) * 100, 100)}
                                         className="h-3 [&>div]:bg-[#b89478]"
                                     />
                                     <p className="text-sm text-muted-foreground text-right">Resets on {resetDateStr}</p>
@@ -152,9 +152,9 @@ export default async function AccountPage() {
                                 <Zap className="h-5 w-5" />
                                 <span className="text-sm font-semibold uppercase tracking-wider">Upgrade to Pro</span>
                             </div>
-                            <h2 className="text-2xl font-bold text-white mb-2">Unlock unlimited AI organization</h2>
+                            <h2 className="text-2xl font-bold text-white mb-2">Save more. Do more.</h2>
                             <p className="text-base text-white/70 mb-8">
-                                Stop worrying about save limits. Get unlimited URL saves, priority AI processing, and upcoming features.
+                                Stop worrying about save limits. Get unlimited URL saves and full AI-powered organization.
                             </p>
                             <div className="space-y-3 mb-8">
                                 <div className="flex items-center gap-2.5">
@@ -163,11 +163,11 @@ export default async function AccountPage() {
                                 </div>
                                 <div className="flex items-center gap-2.5">
                                     <CheckCircle2 className="h-5 w-5 text-white" />
-                                    <span className="text-base text-white">Faster Gemini 2.0 processing</span>
+                                    <span className="text-base text-white">AI-powered Actionables for every save</span>
                                 </div>
                                 <div className="flex items-center gap-2.5">
                                     <CheckCircle2 className="h-5 w-5 text-white" />
-                                    <span className="text-base text-white">Pattern detection & AI insights (Soon)</span>
+                                    <span className="text-base text-white">Priority access to all new features</span>
                                 </div>
                             </div>
                             <div className="flex items-end justify-between">

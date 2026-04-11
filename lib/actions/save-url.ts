@@ -40,7 +40,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
         return { success: false, error: "You must be logged in to save" };
     }
 
-    // Step 3: Check the free tier limit (30 saves/month)
+    // Step 3: Check the free tier limit (10 saves/month)
     // First, figure out what month it is right now (e.g. "2026-03")
     const currentMonth = new Date().toISOString().slice(0, 7);
 
@@ -62,8 +62,8 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             ? profile.saves_count_this_month
             : 0;
 
-        if (savesThisMonth >= 15) {
-            return { success: false, error: "Free tier limit reached (15 saves/month). Upgrade to Pro!" };
+        if (savesThisMonth >= 10) {
+            return { success: false, error: "Free tier limit reached (10 saves/month). Upgrade to Pro!" };
         }
     }
 
@@ -111,6 +111,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
 
     // revalidatePath tells Next.js to refresh the cached page data so new saves show up quickly without a manual refresh of the site 
     revalidatePath("/")
+    revalidatePath("/actionables")
     // Done! The URL is saved.
     return { success: true };
 }

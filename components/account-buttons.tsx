@@ -16,15 +16,22 @@ import {
     AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Zap, CreditCard, LogOut } from "lucide-react"
+import { toast } from "sonner"
 
 export function UpgradeButton() {
     const [loading, setLoading] = useState(false)
 
     const handleUpgrade = async () => {
         setLoading(true)
-        const response = await fetch("/api/stripe/checkout", { method: "POST" })
-        const { url } = await response.json()
-        if (url) window.location.href = url
+        try {
+            const response = await fetch("/api/stripe/checkout", { method: "POST" })
+            const data = await response.json()
+            if (data.url) window.location.href = data.url
+            else { toast.error("Could not start checkout. Try again."); setLoading(false) }
+        } catch {
+            toast.error("Something went wrong. Try again.")
+            setLoading(false)
+        }
     }
 
     return (
@@ -44,9 +51,15 @@ export function ManageBillingButton() {
 
     const handleManageBilling = async () => {
         setLoading(true)
-        const response = await fetch("/api/stripe/portal", { method: "POST" })
-        const { url } = await response.json()
-        if (url) window.location.href = url
+        try {
+            const response = await fetch("/api/stripe/portal", { method: "POST" })
+            const data = await response.json()
+            if (data.url) window.location.href = data.url
+            else { toast.error("Could not open billing portal. Try again."); setLoading(false) }
+        } catch {
+            toast.error("Something went wrong. Try again.")
+            setLoading(false)
+        }
     }
 
     return (

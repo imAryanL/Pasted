@@ -45,23 +45,8 @@ export async function deleteSave(id: string): Promise<DeleteResult> {
           return { success: false, error: "Failed to delete save" };
       }
 
-    // Step 4: Decrement the monthly save count
-    const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("saves_count_this_month")
-        .eq("user_id", user.id)
-        .single();
-
-    if (!profileError && profile) {
-        await supabase
-            .from("profiles")
-            .update({
-                saves_count_this_month: Math.max(0, profile.saves_count_this_month - 1),
-            })
-            .eq("user_id", user.id);
-    }
-
-// Step 5: Revalidate and return:
+// Step 4: Revalidate and return (save count is NOT decremented — limit tracks total saves created per month):
     revalidatePath("/");
+    revalidatePath("/actionables");
     return { success: true };
 }

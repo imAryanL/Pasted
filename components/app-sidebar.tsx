@@ -34,7 +34,7 @@
       const { data: profile } = await supabase
           .from("profiles")
           .select("subscription_tier, saves_count")
-          .eq("id", user.id)
+          .eq("user_id", user.id)
           .single()
 
       // Count saves this month (for the usage bar)
@@ -98,12 +98,12 @@
                       <div className="space-y-3">
                           <div className="flex justify-between text-base font-medium text-muted-foreground">
                               <span>Free Plan</span>
-                              <span>{usage} / 15</span>
+                              <span>{usage} / 10</span>
                           </div>
                           <div className="h-3 rounded-full bg-muted">
                               <div
                                   className="h-3 rounded-full bg-[#b89478]"
-                                  style={{ width: `${Math.min((usage / 15) * 100, 100)}%` }}
+                                  style={{ width: `${Math.min((usage / 10) * 100, 100)}%` }}
                               />
                           </div>
                           <SidebarUpgradeButton />
