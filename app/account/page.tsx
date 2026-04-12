@@ -45,7 +45,7 @@ export default async function AccountPage() {
     const resetDateStr = resetDate.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
 
     return (
-        <div className="mx-auto max-w-5xl p-8 space-y-8">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             <div>
                 <h1 className="text-4xl font-bold tracking-tight">Account & Billing</h1>
                 <p className="text-lg text-muted-foreground mt-2">Manage your subscription and account settings.</p>
@@ -56,7 +56,7 @@ export default async function AccountPage() {
                 {/* Left column — Profile + Usage */}
                 <div className="space-y-8">
                     {/* Card 1: Profile */}
-                    <Card>
+                    <Card className="bg-zinc-800">
                         <CardHeader className="pb-4">
                             <CardTitle className="flex items-center gap-3 text-xl">
                                 <User className="h-6 w-6" />
@@ -83,13 +83,13 @@ export default async function AccountPage() {
                             </div>
                             <div>
                                 <p className="text-sm text-muted-foreground mb-1.5">Connected Account</p>
-                                <Badge variant="outline" className="text-sm px-3 py-1">Google OAuth</Badge>
+                                <Badge className="text-sm px-3 py-1 bg-zinc-600 text-white border-zinc-500">Google OAuth</Badge>
                             </div>
                         </CardContent>
                     </Card>
 
                     {/* Card 2: Current Usage */}
-                    <Card>
+                    <Card className="bg-zinc-800">
                         <CardHeader className="pb-4">
                             <CardTitle className="flex items-center gap-3 text-xl">
                                 <BarChart3 className="h-6 w-6" />
@@ -104,8 +104,8 @@ export default async function AccountPage() {
                                 </div>
                                 <Badge className={tier === "pro"
                                     ? "bg-[#b89478]/20 text-[#d4b9a3] border-[#b89478]/30 text-sm px-3 py-1"
-                                    : "text-sm px-3 py-1"
-                                } variant={tier === "pro" ? "default" : "secondary"}>
+                                    : "bg-zinc-600 text-white border-zinc-500 text-sm px-3 py-1"
+                                }>
                                     {tier === "pro" ? "Pro Plan" : "Free Plan"}
                                 </Badge>
                             </div>
@@ -122,27 +122,25 @@ export default async function AccountPage() {
                         </CardContent>
                     </Card>
 
-                    {/* Manage Billing — only for pro users */}
-                    {tier === "pro" && (
-                        <Card>
-                            <CardHeader className="pb-4">
-                                <CardTitle className="flex items-center gap-3 text-xl">
-                                    <Crown className="h-6 w-6" />
-                                    Billing Details
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <p className="text-base text-muted-foreground">
-                                    Manage your subscription and payment methods through the Stripe Customer Portal.
-                                </p>
-                                <ManageBillingButton />
-                            </CardContent>
-                        </Card>
-                    )}
                 </div>
 
-                {/* Right column — Upgrade to Pro promo */}
-                {tier === "free" && (
+                {/* Right column — Billing Details (pro) or Upgrade promo (free) */}
+                {tier === "pro" ? (
+                    <Card className="bg-zinc-800 h-fit lg:sticky lg:top-8">
+                        <CardHeader className="pb-4">
+                            <CardTitle className="flex items-center gap-3 text-xl">
+                                <Crown className="h-6 w-6" />
+                                Billing Details
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <p className="text-base text-muted-foreground">
+                                Manage your subscription and payment methods through the Stripe Customer Portal.
+                            </p>
+                            <ManageBillingButton />
+                        </CardContent>
+                    </Card>
+                ) : (
                     <div className="relative overflow-hidden rounded-xl p-8 bg-[#b89478] h-fit lg:sticky lg:top-8">
                         {/* Decorative Zap icon in background */}
                         <Zap className="absolute right-6 top-1/2 -translate-y-1/2 h-40 w-40 text-white/15" strokeWidth={1.5} />

@@ -43,7 +43,7 @@ export default async function ActionablesPage() {
     return (
         <div className="mx-auto max-w-6xl px-6 py-12 space-y-8">
             {/* Page header with stats */}
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Actionables</h1>
                     <p className="text-muted-foreground mt-1">

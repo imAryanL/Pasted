@@ -23,7 +23,7 @@ export async function POST() {
     const { data: profile } = await supabase
       .from("profiles")
       .select("stripe_customer_id")
-      .eq("id", user.id)
+      .eq("user_id", user.id)
       .single();
 
     let stripeCustomerId = profile?.stripe_customer_id;
@@ -38,7 +38,7 @@ export async function POST() {
       await supabase
         .from("profiles")
         .update({ stripe_customer_id: stripeCustomerId })
-        .eq("id", user.id);
+        .eq("user_id", user.id);
     }
 
     // Section 3: Create the Checkout Session

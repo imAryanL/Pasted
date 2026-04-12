@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { FilterProvider } from "@/components/filter-context";
@@ -35,7 +35,13 @@ export default async function RootLayout({
           <FilterProvider>
             <SidebarProvider>
               <AppSidebar />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1">
+                <div className="flex items-center gap-3 px-4 py-3 border-b border-border/40 md:hidden">
+                  <SidebarTrigger />
+                  <span className="text-base font-bold">Pasted</span>
+                </div>
+                {children}
+              </main>
             </SidebarProvider>
           </FilterProvider>
         ) : (

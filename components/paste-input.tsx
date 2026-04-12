@@ -43,7 +43,7 @@ export function PasteInput() {
   return (
     <div className="w-full space-y-3">
       {/* Input row — pill-shaped container */}
-      <div className="relative max-w-3xl bg-[#a38771] p-3 rounded-[2rem] shadow-2xl flex gap-3">
+      <div className="relative max-w-3xl bg-[#a38771] p-2 sm:p-3 rounded-[2rem] shadow-2xl flex gap-2 sm:gap-3">
         
         {/* Inner Recessed Container (Darker Beige) with Lighter Beige Focus Ring */}
         <div className="flex-1 bg-[#806754] rounded-2xl border border-transparent focus-within:ring-[5px] focus-within:ring-[#d4c4b0] focus-within:border-transparent transition-all flex items-center">
@@ -59,7 +59,7 @@ export function PasteInput() {
               }
             }}
             disabled={isPending}
-            className="w-full bg-transparent py-4 px-6 text-white placeholder:text-white/60 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none text-lg md:text-lg h-auto"
+            className="w-full bg-transparent py-3 px-4 sm:py-4 sm:px-6 text-white placeholder:text-white/60 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none !text-lg h-auto"
           />
         </div>
 
@@ -67,7 +67,7 @@ export function PasteInput() {
         <Button
           onClick={handleSave}
           disabled={isPending || !url.trim()}
-          className="bg-white text-black px-8 py-4 h-auto rounded-2xl font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 shadow-lg shrink-0 text-lg cursor-pointer"
+          className="bg-white text-black px-5 sm:px-8 py-3 sm:py-4 h-auto rounded-2xl font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2 disabled:opacity-70 shadow-lg shrink-0 text-base sm:text-lg cursor-pointer whitespace-nowrap"
         >
           {isPending ? (
             <>

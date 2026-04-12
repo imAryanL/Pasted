@@ -35,9 +35,9 @@ export function FilteredSaveGrid({ saves }: { saves: Save[] }) {
   return (
     <div className="space-y-6">
       {/* Section header with search */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold">Recent Saves</h2>
-        <div className="relative w-64">
+        <div className="relative w-full sm:w-64">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <input
             type="text"

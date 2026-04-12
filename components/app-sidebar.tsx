@@ -17,6 +17,7 @@
       SidebarMenu,
       SidebarMenuItem,
   } from "@/components/ui/sidebar"
+  import { Crown } from "lucide-react"
   import { SidebarUpgradeButton } from "@/components/sidebar-upgrade-button"
   import { SidebarUserMenu } from "@/components/sidebar-user-menu"
   import { SidebarCategoryNav } from "@/components/sidebar-category-nav"
@@ -33,7 +34,7 @@
       // Get the user's profile (has subscription_tier)
       const { data: profile } = await supabase
           .from("profiles")
-          .select("subscription_tier, saves_count")
+          .select("subscription_tier")
           .eq("user_id", user.id)
           .single()
 
@@ -65,9 +66,9 @@
           <Sidebar>
               {/* Top — Logo */}
               <SidebarHeader className="p-6">
-                  <Link href="/" className="flex items-center gap-3 text-2xl font-bold tracking-tight text-white">
-                      <img src="/pasted_icon_v1.png" alt="Pasted" className="h-9 w-9 rounded" />
-                      Pasted
+                  <Link href="/" className="flex items-center font-bold tracking-tight text-white">
+                      <img src="/pasted_icon_v1.png" alt="Pasted" className="h-11 w-11 rounded -mr-2.5 -mt-2" />
+                      <span className="text-3xl">asted.</span>
                   </Link>
               </SidebarHeader>
 
@@ -110,9 +111,15 @@
                       </div>
                   )}
 
-                  {/* Pro users just see their plan */}
+                  {/* Pro users — styled plan badge */}
                   {tier === "pro" && (
-                      <div className="text-sm text-muted-foreground">Pro Plan — Unlimited saves</div>
+                      <div className="rounded-xl bg-[#a38771] px-4 py-3 flex items-center gap-3">
+                          <Crown className="h-6 w-6 text-white/80 shrink-0" />
+                          <div>
+                              <p className="text-base font-semibold text-white">Pro Plan</p>
+                              <p className="text-sm text-white/80">Unlimited saves</p>
+                          </div>
+                      </div>
                   )}
 
                   {/* User profile + sign out */}
@@ -121,3 +128,4 @@
           </Sidebar>
       )
   }
+  

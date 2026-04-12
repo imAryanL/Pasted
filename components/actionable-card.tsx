@@ -82,10 +82,11 @@ export function ActionableCard({ save }: ActionableCardProps) {
           </div>
 
           {/* Progress bar + percentage */}
-          <div className="shrink-0 flex items-center gap-3 w-44">
+          <div className="shrink-0 hidden sm:flex items-center gap-3 w-44">
             <Progress value={progress} className="h-2.5 flex-1 bg-zinc-600 [&>[data-slot=progress-indicator]]:bg-[#b89478]" />
             <span className="text-base font-semibold text-white w-12 text-right">{progress}%</span>
           </div>
+          <span className="sm:hidden shrink-0 text-sm font-semibold text-[#b89478]">{progress}%</span>
 
           {/* Chevron */}
           <ChevronDown

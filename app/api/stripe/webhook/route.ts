@@ -5,6 +5,7 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { revalidatePath } from "next/cache";
 import Stripe from "stripe";
 
 export async function POST(request: Request) {
@@ -47,6 +48,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "DB update failed" }, { status: 500 });
       }
 
+      revalidatePath("/", "layout");
       break;
     }
 
