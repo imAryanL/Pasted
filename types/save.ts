@@ -21,4 +21,8 @@ export type Save = {
   created_at: string;
   actionable_steps: Array<{ id: string; text: string; completed: boolean }> | null;
   action_type: string | null; // e.g. "Cook", "Watch", "Read", "Build", "Try"
+  explore_data: {
+    why_this_matters: string;
+    related_topics: Array<{ title: string; description: string }>;
+  } | null;
 };

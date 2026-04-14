@@ -15,6 +15,10 @@ type AICategorization = {
     tags: string[];
     actionable_steps: Array<{ id: string; text: string; completed: boolean }>;
     action_type: string;
+    explore_data: {
+        why_this_matters: string;
+        related_topics: Array<{ title: string; description: string }>;
+    } | null;
 }
 
 
@@ -33,6 +37,7 @@ const DEFAULT_RESULT: AICategorization = {
     tags: [],
     actionable_steps: [],
     action_type: "",
+    explore_data: null,
 };
 
 
@@ -48,20 +53,26 @@ const DEFAULT_RESULT: AICategorization = {
         const prompt = `Analyze this webpage${imageUrl ? " and its preview image" : ""} and return a JSON object with exactly these fields:
         - "ai_title": a clean, descriptive title for this content in 3-8 words. Describe WHAT the content is about, not WHO posted it. Never include usernames, @handles, platform names (X, Instagram, TikTok, YouTube, Reddit), "on Instagram", "on X", hashtags, or emoji. Just a clear, human-readable title. Examples: "SpaceX Starship Test Flight Update", "Homemade Pasta Recipe Tutorial", "React Server Components Explained".
         - "category": one of [${CATEGORIES.join(", ")}]
-        - "short_summary": exactly 1 concise sentence for a card preview. Get straight to the point — do NOT start with "This post", "This video", "This article", or "This X post". Just describe the content directly.
-        - "summary": a detailed 4-6 sentence summary of what this page is about. Include key details, context, and why it matters. This is for a detailed modal view so be thorough.
+        - "short_summary": exactly 1 concise sentence for a card preview. Get straight to the point — do NOT start with "This post", "This video", "This article", or "This X post". Just describe the content directly. Never include URLs or links.
+        - "summary": a detailed 4-6 sentence summary of what this page is about. Include key details, context, and why it matters. This is for a detailed modal view so be thorough. IMPORTANT: Never copy-paste from the description — always write original synthesized text. Never include raw URLs, links, or promotional copy in your summary.
         - "tags": an array of 3-5 relevant single-word or short tags
         - "action_type": a single action verb that best describes what the reader should do with this content. Pick one: "Cook", "Watch", "Read", "Build", "Try", "Learn", "Buy", "Visit", "Listen", "Exercise", or "Explore". If no actionable steps, return "".
         - "actionable_steps": Think about whether a reader could realistically DO something based on this content. For tutorials/recipes/guides, extract the actual steps. For other content where action makes sense (fitness tips → "Add this to your workout", product reviews → "Compare prices", travel content → "Research flights", cooking posts → "Try making this recipe"), generate 3-5 creative but relevant steps. Only return an empty array [] if there's genuinely nothing actionable (random memes, celebrity gossip, pure entertainment with no takeaway). Use your judgment. Format: array of objects with "id" (string starting from "1"), "text" (short imperative action), and "completed" (always false).
+        - "explore_data": an object with two fields: "why_this_matters" (1-2 sentences explaining why this content is worth knowing about — connect it to broader trends, skills, or ideas) and "related_topics" (array of 3-4 objects each with "title" (a concise topic name) and "description" (1 sentence on what it is and why it connects to this save)). These help the reader go deeper after saving.
+
+        General rules:
+        - Never include raw URLs, links, or promotional text in any field
+        - Never copy-paste from the description — always synthesize original text
+        - If the description contains URLs, sponsor mentions, affiliate links, or promotional copy (e.g. "Try Gamma", "Watch now at", "Subscribe"), completely ignore it and infer entirely from the title and image instead
 
         Webpage info:
         - URL: ${url}
         - Title: ${title || "Unknown"}
-        - Description: ${description || "No description available"}
+        - Description: ${url.includes("youtube.com") || url.includes("youtu.be") ? "IGNORE — use title and thumbnail image only for YouTube" : (description || "No description available")}
 
         Return ONLY valid JSON. No markdown, no code fences, no explanation.`;
 
-          // Step 2: Build contents — include image if available for better summaries
+          // Step 2: Build contents — include OG image if available for better summaries
           let contents: any;
 
           if (imageUrl) {
@@ -88,14 +99,13 @@ const DEFAULT_RESULT: AICategorization = {
             contents = prompt;
           }
 
-          // Step 3: Call Gemini Flash (JSON mode = clean output, no code fences)
+          // Step 3: Call Gemini 2.5 Flash with thinking enabled for better quality
           const response = await gemini.models.generateContent({
               model: "gemini-2.5-flash",
               contents,
               config: {
                   responseMimeType: "application/json",
-                  // Disable thinking — our task is simple classification, no reasoning needed
-                  thinkingConfig: { thinkingBudget: 0 },
+                  thinkingConfig: { thinkingBudget: 1024 },
               },
           });
 
@@ -109,12 +119,15 @@ const DEFAULT_RESULT: AICategorization = {
           // Step 4: Return the result, with fallbacks for bad data
           return {
               ai_title: parsed.ai_title || "",
-              category: CATEGORIES.includes(parsed.category) ? parsed.category : "Other",
+              category: (CATEGORIES as readonly string[]).includes(parsed.category) ? parsed.category : "Other",
               short_summary: parsed.short_summary || "",
               summary: parsed.summary || "",
               tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 5) : [],
               actionable_steps: Array.isArray(parsed.actionable_steps) ? parsed.actionable_steps : [],
               action_type: parsed.action_type || "",
+              explore_data: parsed.explore_data?.why_this_matters && Array.isArray(parsed.explore_data?.related_topics)
+                  ? parsed.explore_data
+                  : null,
           };
 
       } catch {

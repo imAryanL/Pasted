@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { saveUrl } from "@/lib/actions/save-url";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { SavingAnimation } from "@/components/saving-animation";
 
 export function PasteInput() {
   // The URL the user has typed or pasted
@@ -40,6 +41,18 @@ export function PasteInput() {
     });
   };
 
+  if (isPending) {
+    return (
+      <div className="w-full max-w-3xl">
+        <div className="bg-[#a38771] p-2 sm:p-3 rounded-[2rem] shadow-2xl">
+          <div className="bg-white rounded-2xl py-2 px-4 sm:px-6">
+            <SavingAnimation />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full space-y-3">
       {/* Input row — pill-shaped container */}
@@ -49,7 +62,7 @@ export function PasteInput() {
         <div className="flex-1 bg-[#806754] rounded-2xl border border-transparent focus-within:ring-[5px] focus-within:ring-[#d4c4b0] focus-within:border-transparent transition-all flex items-center">
           <Input
             type="url"
-            placeholder="Paste a URL to save - post, tweet, video, article"
+            placeholder="Paste a URL to save"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => {

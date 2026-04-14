@@ -55,7 +55,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
         return { success: false, error: "Could not load your profile" };
     }
 
-    // If they're on the free tier, check if they've hit 30 saves this month
+    // If they're on the free tier, check if they've hit 10 saves this month
     if (profile.subscription_tier === "free") {
         // If it's a new month, the count resets (we'll update it below)
         const savesThisMonth = profile.saves_month === currentMonth
@@ -71,7 +71,9 @@ export async function saveUrl(url: string): Promise<SaveResult> {
     const metadata = await fetchMetadata(url);
 
     // Step 4.5: Ask Gemini to categorize, summarize, and tag the URL
-    const aiResult = await categorizeWithAI(metadata.title, metadata.description, url, metadata.image);
+    const isYouTube = url.includes("youtube.com") || url.includes("youtu.be");
+    const isTwitter = url.includes("twitter.com") || url.includes("x.com");
+    const aiResult = await categorizeWithAI(metadata.title, (isYouTube || isTwitter) ? null : metadata.description, url, metadata.image);
 
     // Step 5: Insert the save into the database
     const { error: insertError } = await supabase
@@ -89,6 +91,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
             tags: aiResult.tags,
             actionable_steps: aiResult.actionable_steps,
             action_type: aiResult.action_type || null,
+            explore_data: aiResult.explore_data,
         });
 
     if (insertError) {
@@ -112,6 +115,7 @@ export async function saveUrl(url: string): Promise<SaveResult> {
     // revalidatePath tells Next.js to refresh the cached page data so new saves show up quickly without a manual refresh of the site 
     revalidatePath("/")
     revalidatePath("/actionables")
+    revalidatePath("/explore")
     // Done! The URL is saved.
     return { success: true };
 }

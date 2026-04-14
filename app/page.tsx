@@ -6,10 +6,18 @@
 import { PasteInput } from "@/components/paste-input";
 import { SaveList } from "@/components/save-list";
 import { StatsCards } from "@/components/stats-cards";
+import { CollapsibleStats } from "@/components/collapsible-stats";
 import { Greeting } from "@/components/greeting";
+import { UpgradeToast } from "@/components/upgrade-toast";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ upgraded?: string }>
+}) {
+  const { upgraded } = await searchParams;
+
   // Get the user's name for the greeting
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -19,14 +27,19 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-background">
       <main className="mx-auto max-w-6xl px-6 py-12 space-y-10">
+        {/* Fire a toast if user just upgraded to Pro */}
+        {upgraded === "true" && <UpgradeToast />}
+
         {/* Personalized greeting */}
         <Greeting name={name} />
 
         {/* Paste input — user types/pastes a URL and saves it */}
         <PasteInput />
 
-        {/* Stats cards — total saves, this month, top category */}
-        <StatsCards />
+        {/* Stats cards — collapsible on mobile, always visible on desktop */}
+        <CollapsibleStats>
+          <StatsCards />
+        </CollapsibleStats>
 
         {/* Save list — shows all saved URLs as cards */}
         <SaveList />

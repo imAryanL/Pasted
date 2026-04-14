@@ -5,6 +5,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { ActionableCard } from "@/components/actionable-card"
+import { AnimatedSaveGrid, AnimatedCard } from "@/components/animated-save-grid"
 import { ClipboardCheck } from "lucide-react"
 import type { Save } from "@/types/save"
 
@@ -41,7 +42,7 @@ export default async function ActionablesPage() {
         : 0
 
     return (
-        <div className="mx-auto max-w-6xl px-6 py-12 space-y-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-12 space-y-8">
             {/* Page header with stats */}
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div>
@@ -68,11 +69,13 @@ export default async function ActionablesPage() {
 
             {/* Stacked cards or empty state */}
             {actionableSaves.length > 0 ? (
-                <div className="space-y-4">
+                <AnimatedSaveGrid className="space-y-4">
                     {actionableSaves.map(save => (
-                        <ActionableCard key={save.id} save={save} />
+                        <AnimatedCard key={save.id}>
+                            <ActionableCard save={save} />
+                        </AnimatedCard>
                     ))}
-                </div>
+                </AnimatedSaveGrid>
             ) : (
                 <div className="flex flex-col items-center justify-center py-24 text-center">
                     <ClipboardCheck className="size-12 text-muted-foreground/40 mb-4" />

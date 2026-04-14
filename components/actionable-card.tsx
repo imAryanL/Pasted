@@ -54,10 +54,10 @@ export function ActionableCard({ save }: ActionableCardProps) {
         {/* Collapsed header row — always visible */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center gap-5 p-6 text-left cursor-pointer"
+          className="w-full flex items-center gap-3 sm:gap-5 p-4 sm:p-6 text-left cursor-pointer"
         >
           {/* Thumbnail */}
-          <div className="shrink-0 size-15 rounded-lg overflow-hidden bg-zinc-700">
+          <div className="shrink-0 size-12 sm:size-15 rounded-lg overflow-hidden bg-zinc-700">
             {save.image_url ? (
               <img
                 src={save.image_url}
@@ -73,7 +73,7 @@ export function ActionableCard({ save }: ActionableCardProps) {
 
           {/* Title + action type tag */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-xl leading-snug truncate">{displayTitle}</h3>
+            <h3 className="font-bold text-base sm:text-xl leading-snug line-clamp-2">{displayTitle}</h3>
             {save.action_type && (
               <span className="inline-block mt-1 rounded-full bg-[#b89478]/15 px-2.5 py-0.5 text-xs text-[#b89478] font-medium">
                 {save.action_type}
@@ -104,7 +104,7 @@ export function ActionableCard({ save }: ActionableCardProps) {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="px-6 pb-6 pt-0 space-y-4 border-t border-border/30">
+              <div className="px-4 sm:px-6 pb-6 pt-0 space-y-4 border-t border-border/30">
                 {/* Checklist */}
                 <div className="space-y-4 pt-4">
                   {localSteps.map(step => (
@@ -117,7 +117,7 @@ export function ActionableCard({ save }: ActionableCardProps) {
                         onCheckedChange={() => handleToggle(step.id)}
                         className="mt-0.5 size-6 rounded-full border-2 border-[#b89478] bg-[#b89478]/20 data-[state=checked]:bg-[#b89478] data-[state=checked]:border-[#b89478] data-[state=checked]:text-white"
                       />
-                      <span className={`text-base leading-relaxed ${step.completed ? "line-through text-muted-foreground/50" : "text-foreground"}`}>
+                      <span className={`text-base leading-relaxed break-words min-w-0 flex-1 ${step.completed ? "line-through text-muted-foreground/50" : "text-foreground"}`}>
                         {step.text}
                       </span>
                     </label>

@@ -7,7 +7,7 @@
 
 import type { Save } from "@/types/save";
 import {
-  Dialog, DialogContent,
+  Dialog, DialogContent, DialogTitle, DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Trash2, Calendar, Sparkles, Tag, ImageOff } from "lucide-react";
@@ -41,6 +41,8 @@ export function SaveDetailModal({ save, open, onOpenChange }: SaveDetailModalPro
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto bg-zinc-900 border-border/50 p-0 gap-0 [&>button]:z-20">
+        <DialogTitle className="sr-only">{save.ai_title || save.title || "Save Details"}</DialogTitle>
+        <DialogDescription className="sr-only">Details for your saved link.</DialogDescription>
         {/* Hero image with category badge overlay */}
         <div className="relative w-full overflow-hidden rounded-t-lg bg-zinc-900">
           {save.image_url ? (

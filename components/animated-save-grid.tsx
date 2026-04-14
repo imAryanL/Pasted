@@ -18,10 +18,10 @@ const cardVariants: Variants = {
     },
 }
 
-export function AnimatedSaveGrid({ children }: { children: React.ReactNode }) {
+export function AnimatedSaveGrid({ children, className }: { children: React.ReactNode; className?: string }) {
     return (
         <motion.div
-            className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3"
+            className={className ?? "grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3"}
             initial="hidden"
             animate="visible"
             variants={{

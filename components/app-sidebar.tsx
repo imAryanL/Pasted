@@ -7,6 +7,7 @@
   import Link from "next/link"
   import { SidebarLibraryLink } from "@/components/sidebar-library-link"
   import { SidebarActionablesLink } from "@/components/sidebar-actionables-link"
+  import { SidebarExploreLink } from "@/components/sidebar-explore-link"
   import {
       Sidebar,
       SidebarHeader,
@@ -83,6 +84,9 @@
                               </SidebarMenuItem>
                               <SidebarMenuItem>
                                   <SidebarActionablesLink />
+                              </SidebarMenuItem>
+                              <SidebarMenuItem>
+                                  <SidebarExploreLink />
                               </SidebarMenuItem>
                           </SidebarMenu>
                       </SidebarGroupContent>
