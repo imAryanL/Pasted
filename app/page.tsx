@@ -10,6 +10,7 @@ import { CollapsibleStats } from "@/components/collapsible-stats";
 import { Greeting } from "@/components/greeting";
 import { UpgradeToast } from "@/components/upgrade-toast";
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function Home({
   searchParams,
@@ -21,6 +22,7 @@ export default async function Home({
   // Get the user's name for the greeting
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
   const rawName = user?.user_metadata?.full_name?.split(" ")[0] || "there";
   const name = rawName.charAt(0).toUpperCase() + rawName.slice(1);
 
