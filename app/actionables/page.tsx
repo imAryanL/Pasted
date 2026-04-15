@@ -71,7 +71,7 @@ export default async function ActionablesPage() {
             {actionableSaves.length > 0 ? (
                 <AnimatedSaveGrid className="space-y-4">
                     {actionableSaves.map(save => (
-                        <AnimatedCard key={save.id} tapEffect={false}>
+                        <AnimatedCard key={save.id}>
                             <ActionableCard save={save} />
                         </AnimatedCard>
                     ))}
