@@ -22,9 +22,16 @@ export async function POST() {
     // Section 2: Get or create Stripe customer
     const { data: profile } = await supabase
       .from("profiles")
-      .select("stripe_customer_id")
+      .select("stripe_customer_id, subscription_tier")
       .eq("user_id", user.id)
       .single();
+
+    if (profile?.subscription_tier === "pro") {
+      return NextResponse.json(
+        { error: "You are already on the Pro plan" },
+        { status: 400 }
+      );
+    }
 
     let stripeCustomerId = profile?.stripe_customer_id;
 

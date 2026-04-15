@@ -83,7 +83,7 @@ function ExploreCard({ save }: { save: Save }) {
                     <div className="min-w-0 flex-1">
                         <h2 className="text-xl font-bold leading-snug line-clamp-2">{displayTitle}</h2>
                         {save.source_type && (
-                            <p className="text-sm text-muted-foreground mt-0.5">{save.source_type}</p>
+                            <p className="text-sm text-muted-foreground mt-0.5">{save.source_type.replace(/\s*\(formerly.*?\)/i, "")}</p>
                         )}
                     </div>
                 </div>

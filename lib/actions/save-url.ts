@@ -67,6 +67,18 @@ export async function saveUrl(url: string): Promise<SaveResult> {
         }
     }
 
+    // Step 3.5: Check if this URL has already been saved by this user
+    const { data: existing } = await supabase
+        .from("saves")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("url", validated.data.url)
+        .single();
+
+    if (existing) {
+        return { success: false, error: "You've already saved this URL" };
+    }
+
     // Step 4: Fetch OG metadata for the URL (uses our other server action)
     const metadata = await fetchMetadata(url);
 

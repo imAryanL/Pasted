@@ -41,7 +41,7 @@ export function AnimatedCard({ children }: { children: React.ReactNode }) {
                 y: -8,
                 transition: { type: "spring", stiffness: 300, damping: 20 },
             }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.99 }}
         >
             {children}
         </motion.div>

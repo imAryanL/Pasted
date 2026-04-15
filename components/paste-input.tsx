@@ -62,7 +62,7 @@ export function PasteInput() {
         <div className="flex-1 bg-[#806754] rounded-2xl border border-transparent focus-within:ring-[5px] focus-within:ring-[#d4c4b0] focus-within:border-transparent transition-all flex items-center">
           <Input
             type="url"
-            placeholder="Paste a URL to save"
+            placeholder="Paste a URL to save — tweet, post, reel, video, article"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => {
