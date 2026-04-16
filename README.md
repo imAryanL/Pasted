@@ -39,6 +39,20 @@ An AI-powered bookmark manager that organizes your saved URLs automatically. Pas
 - **Validation:** Zod
 - **Deployment:** Vercel
 
+## Screenshots
+
+### Library
+![Library](public/screenshots/library.png)
+
+### Actionables
+![Actionables](public/screenshots/actionables.png)
+
+### Save Detail
+![Save Detail](public/screenshots/popup_modal.png)
+
+### Explore
+![Explore](public/screenshots/explore.png)
+
 ## Getting Started
 
 ### Prerequisites
@@ -78,6 +92,3 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Screenshots
-
-<!-- Add screenshots here -->
