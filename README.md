@@ -34,6 +34,7 @@ An AI-powered bookmark manager that organizes your saved URLs automatically. Pas
 - **Database:** Supabase (PostgreSQL + Auth + RLS)
 - **AI:** Google Gemini API
 - **Payments:** Stripe (Checkout, Webhooks, Customer Portal)
+- **Metadata:** Cheerio (Open Graph scraping)
 - **Animations:** Framer Motion
 - **Validation:** Zod
 - **Deployment:** Vercel
