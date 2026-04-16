@@ -2,6 +2,14 @@
 
 **Paste it. Forget it. Find it.**
 
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E?logo=supabase&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini-AI-4285F4?logo=google&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-Payments-635BFF?logo=stripe&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel)
+
 An AI-powered bookmark manager that organizes your saved URLs automatically. Paste any link and Gemini AI categorizes it, generates summaries, extracts tags, and surfaces actionable steps — so you never lose track of what matters.
 
 **Live:** [pasted-ai.vercel.app](https://pasted-ai.vercel.app)
