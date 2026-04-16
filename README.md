@@ -42,16 +42,20 @@ An AI-powered bookmark manager that organizes your saved URLs automatically. Pas
 ## Screenshots
 
 ### Library
-![Library](public/screenshots/library.png)
+<img width="1897" height="903" alt="library" src="https://github.com/user-attachments/assets/ab61d9d2-a041-457c-ac93-c1790400066e" />
+
 
 ### Actionables
-![Actionables](public/screenshots/actionables.png)
+<img width="1917" height="912" alt="actionables" src="https://github.com/user-attachments/assets/cc6a7a54-3b3d-4340-95f4-505260d807af" />
 
-### Save Detail
-![Save Detail](public/screenshots/popup_modal.png)
 
 ### Explore
-![Explore](public/screenshots/explore.png)
+<img width="1896" height="902" alt="explore" src="https://github.com/user-attachments/assets/ab794e01-2f9b-4c8b-9058-ba02f63a9c16" />
+
+
+### Save Detail
+<img width="1918" height="910" alt="popup_modal" src="https://github.com/user-attachments/assets/5cd224e8-e515-4297-903d-94b2fcd33e7a" />
+
 
 ## Getting Started
 
